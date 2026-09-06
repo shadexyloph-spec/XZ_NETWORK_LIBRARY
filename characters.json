@@ -14,14 +14,38 @@
         "text": "این مقاله شامل اسپویلرهای مهم از داستان «ارباب حلقه‌ها» و «هابیت» است. بخش‌هایی از متن، اتفاقات مهمی مانند هویت واقعی گندالف، نبرد او با بالروگ، تبدیل شدن به گندالف سفید، سرنوشت حلقه و پایان داستان را فاش می‌کنند. اگر هنوز داستان را کامل ندیده‌اید یا نخوانده‌اید، ادامه مطلب را با احتیاط بخوانید."
       },
       "stats": [
-        { "label": "نام اصلی", "value": "اولورین (Olórin)" },
-        { "label": "نام‌های دیگر", "value": "میتراندیر، ثارکون" },
-        { "label": "لقب‌ها", "value": "گندالف خاکستری، گندالف سفید" },
-        { "label": "نژاد", "value": "مایا (Maia)" },
-        { "label": "گروه", "value": "ایستاری (Istari)" },
-        { "label": "قلمرو فعالیت", "value": "سرزمین میانه" },
-        { "label": "سلاح", "value": "گلمدرینگ و عصای جادویی" },
-        { "label": "نقش", "value": "جادوگر، راهنما، رهبر نیروهای آزاد" }
+        {
+          "label": "نام اصلی",
+          "value": "اولورین (Olórin)"
+        },
+        {
+          "label": "نام‌های دیگر",
+          "value": "میتراندیر، ثارکون"
+        },
+        {
+          "label": "لقب‌ها",
+          "value": "گندالف خاکستری، گندالف سفید"
+        },
+        {
+          "label": "نژاد",
+          "value": "مایا (Maia)"
+        },
+        {
+          "label": "گروه",
+          "value": "ایستاری (Istari)"
+        },
+        {
+          "label": "قلمرو فعالیت",
+          "value": "سرزمین میانه"
+        },
+        {
+          "label": "سلاح",
+          "value": "گلمدرینگ و عصای جادویی"
+        },
+        {
+          "label": "نقش",
+          "value": "جادوگر، راهنما، رهبر نیروهای آزاد"
+        }
       ],
       "sections": [
         {
@@ -44,7 +68,11 @@
         {
           "icon": "💍",
           "heading": "حلقه‌ی یگانه",
-          "spoiler": { "level": "spoiler", "label": "🚨 اسپویلر مهم", "text": "این بخش یکی از اتفاقات مهم داستان را فاش می‌کند." },
+          "spoiler": {
+            "level": "spoiler",
+            "label": "🚨 اسپویلر مهم",
+            "text": "این بخش یکی از اتفاقات مهم داستان را فاش می‌کند."
+          },
           "body": [
             "گندالف پس از سال‌ها تحقیق و بررسی متوجه شد که حلقه‌ای که بیلبو در اختیار دارد، همان حلقه‌ی یگانه‌ی سائورون است. او دریافت که این حلقه فقط یک شیء قدرتمند نیست؛ بلکه کلید بازگشت قدرت سائورون است.",
             "گندالف نقش مهمی در آشکار شدن حقیقت حلقه و شکل‌گیری مأموریتی داشت که هدف آن نابودی حلقه‌ی یگانه بود. او همچنین به‌خوبی می‌دانست که قدرت حلقه می‌تواند حتی افراد بسیار قدرتمند را وسوسه و فاسد کند."
@@ -53,7 +81,11 @@
         {
           "icon": "🔥",
           "heading": "نبرد با بالروگ",
-          "spoiler": { "level": "spoiler", "label": "🚨 اسپویلر بسیار مهم", "text": "اگر هنوز فیلم‌ها یا داستان را کامل نکرده‌اید، این بخش را نخوانید." },
+          "spoiler": {
+            "level": "spoiler",
+            "label": "🚨 اسپویلر بسیار مهم",
+            "text": "اگر هنوز فیلم‌ها یا داستان را کامل نکرده‌اید، این بخش را نخوانید."
+          },
           "body": [
             "در معادن موریا، گندالف برای متوقف کردن بالروگ در برابر او ایستاد تا یاران حلقه فرصت فرار پیدا کنند. نبرد میان آن دو ادامه پیدا کرد و سرانجام هر دو به اعماق سقوط کردند.",
             "گندالف در این نبرد جان باخت. اما پایان کار او نبود."
@@ -62,7 +94,11 @@
         {
           "icon": "⚪",
           "heading": "گندالف سفید",
-          "spoiler": { "level": "spoiler", "label": "🚨 اسپویلر بسیار مهم", "text": "این بخش یکی از مهم‌ترین تغییرات شخصیتی گندالف را فاش می‌کند." },
+          "spoiler": {
+            "level": "spoiler",
+            "label": "🚨 اسپویلر بسیار مهم",
+            "text": "این بخش یکی از مهم‌ترین تغییرات شخصیتی گندالف را فاش می‌کند."
+          },
           "body": [
             "پس از نبرد با بالروگ، گندالف دوباره بازگشت؛ اما دیگر همان گندالف خاکستری نبود. او به گندالف سفید تبدیل شد؛ با جایگاهی بالاتر و نقشی مهم‌تر در نبرد نهایی با نیروهای سائورون.",
             "پس از بازگشت، گندالف در مقابله با سارومان و متحد کردن نیروهای آزاد نقش مهمی ایفا کرد. از این مرحله به بعد، او به یکی از اصلی‌ترین رهبران مقاومت در برابر تاریکی تبدیل شد."
@@ -79,7 +115,11 @@
         {
           "icon": "🌅",
           "heading": "سرنوشت گندالف",
-          "spoiler": { "level": "final", "label": "🚨🚨 اسپویلر نهایی", "text": "هشدار: این بخش پایان داستان «ارباب حلقه‌ها» را فاش می‌کند." },
+          "spoiler": {
+            "level": "final",
+            "label": "🚨🚨 اسپویلر نهایی",
+            "text": "هشدار: این بخش پایان داستان «ارباب حلقه‌ها» را فاش می‌کند."
+          },
           "body": [
             "پس از نابودی حلقه‌ی یگانه و شکست سائورون، مأموریت گندالف در سرزمین میانه به پایان رسید.",
             "او به بندرگاه‌های خاکستری رفت و سپس همراه فرودو، بیلبو و دیگر همراهانش با کشتی به سوی والینور بازگشت. با این سفر، حضور گندالف در سرزمین میانه به پایان رسید. اما تأثیر او بر تاریخ این سرزمین باقی ماند."
@@ -96,12 +136,30 @@
         }
       ],
       "abilities": [
-        { "title": "قدرت یک مایا", "text": "ماهیت واقعی گندالف به عنوان یک مایا به او وجودی بسیار فراتر از انسان‌ها می‌داد." },
-        { "title": "جادو", "text": "او توانایی استفاده از نیروهای جادویی و ایجاد تأثیرات فراطبیعی را داشت." },
-        { "title": "مهارت رزمی", "text": "گندالف تنها یک جادوگر نبود. او در مبارزه مهارت زیادی داشت و از شمشیر گلمدرینگ استفاده می‌کرد." },
-        { "title": "دانش گسترده", "text": "دانش او درباره‌ی تاریخ، موجودات و نیروهای سرزمین میانه یکی از مهم‌ترین ابزارهایش بود." },
-        { "title": "رهبری", "text": "او توانایی بالایی در هدایت دیگران و متحد کردن نیروهای مختلف در شرایط بحرانی داشت." },
-        { "title": "مقاومت در برابر تاریکی", "text": "گندالف در برابر وسوسه‌ی قدرت و نفوذ نیروهای تاریکی مقاومت زیادی داشت." }
+        {
+          "title": "قدرت یک مایا",
+          "text": "ماهیت واقعی گندالف به عنوان یک مایا به او وجودی بسیار فراتر از انسان‌ها می‌داد."
+        },
+        {
+          "title": "جادو",
+          "text": "او توانایی استفاده از نیروهای جادویی و ایجاد تأثیرات فراطبیعی را داشت."
+        },
+        {
+          "title": "مهارت رزمی",
+          "text": "گندالف تنها یک جادوگر نبود. او در مبارزه مهارت زیادی داشت و از شمشیر گلمدرینگ استفاده می‌کرد."
+        },
+        {
+          "title": "دانش گسترده",
+          "text": "دانش او درباره‌ی تاریخ، موجودات و نیروهای سرزمین میانه یکی از مهم‌ترین ابزارهایش بود."
+        },
+        {
+          "title": "رهبری",
+          "text": "او توانایی بالایی در هدایت دیگران و متحد کردن نیروهای مختلف در شرایط بحرانی داشت."
+        },
+        {
+          "title": "مقاومت در برابر تاریکی",
+          "text": "گندالف در برابر وسوسه‌ی قدرت و نفوذ نیروهای تاریکی مقاومت زیادی داشت."
+        }
       ],
       "trivia": [
         "نام اصلی گندالف اولورین (Olórin) است.",
@@ -111,7 +169,184 @@
         "او نقش مهمی در کشف ماهیت حلقه‌ی بیلبو و شکل‌گیری مأموریت نابودی آن داشت.",
         "گندالف بیشتر از آن‌که به قدرت مستقیم تکیه کند، از خرد، امید و هدایت دیگران استفاده می‌کرد."
       ],
-      "tags": ["LOTR", "Gandalf", "Olórin", "Maiar", "Istari", "MiddleEarth", "LordOfTheRings"]
+      "tags": [
+        "LOTR",
+        "Gandalf",
+        "Olórin",
+        "Maiar",
+        "Istari",
+        "MiddleEarth",
+        "LordOfTheRings"
+      ],
+      "translations": {
+        "en": {
+          "name": "Gandalf",
+          "latin": "GANDALF",
+          "byline": "Wizard of Middle-earth",
+          "quote": "“Even the smallest person can change the course of the future.”",
+          "caption": "Gandalf the White",
+          "notice": {
+            "label": "⚠️ Spoiler Warning",
+            "text": "This article contains major spoilers for The Lord of the Rings and The Hobbit — including Gandalf's true identity, his fight with the Balrog, his return as Gandalf the White, the fate of the Ring, and the ending of the story. Read on with caution if you haven't finished it yet."
+          },
+          "stats": [
+            {
+              "label": "True Name",
+              "value": "Olórin"
+            },
+            {
+              "label": "Other Names",
+              "value": "Mithrandir, Thârkun"
+            },
+            {
+              "label": "Titles",
+              "value": "Gandalf the Grey, Gandalf the White"
+            },
+            {
+              "label": "Race",
+              "value": "Maia"
+            },
+            {
+              "label": "Order",
+              "value": "Istari"
+            },
+            {
+              "label": "Domain",
+              "value": "Middle-earth"
+            },
+            {
+              "label": "Weapon",
+              "value": "Glamdring and his staff"
+            },
+            {
+              "label": "Role",
+              "value": "Wizard, guide, leader of the free peoples"
+            }
+          ],
+          "sections": [
+            {
+              "heading": "Gandalf's True Identity",
+              "icon": "✦",
+              "body": [
+                "Gandalf was never an ordinary man, or even an ordinary wizard. His true name was Olórin, one of the Maiar — spirits who dwelled in Valinor long before the First Age.",
+                "He was sent to Middle-earth alongside the other Istari to guide its peoples against the return of Sauron's power, and to help the free folk find the strength to resist the darkness themselves.",
+                "Gandalf never sought to rule. His task was to counsel and inspire others to stand against evil on their own."
+              ]
+            },
+            {
+              "heading": "Gandalf the Grey",
+              "icon": "🤍",
+              "body": [
+                "For centuries Gandalf wandered Middle-earth, forming bonds with Elves, Men, Dwarves, and Hobbits, and gradually becoming one of the darkness's greatest adversaries.",
+                "One of his most fateful choices was recommending Bilbo Baggins to join Thorin's company of Dwarves — a decision that seemed small at the time but would set in motion events that shaped the fate of all Middle-earth."
+              ]
+            },
+            {
+              "heading": "The One Ring",
+              "icon": "💍",
+              "body": [
+                "After years of research, Gandalf discovered that the ring in Bilbo's possession was none other than the One Ring of Sauron — not merely a powerful trinket, but the key to the Dark Lord's return.",
+                "Gandalf played a central role in uncovering the Ring's true nature and in setting in motion the quest to destroy it, all while knowing its power could corrupt even the strongest of wills."
+              ],
+              "spoiler": {
+                "label": "🚨 Major Spoiler",
+                "level": "spoiler",
+                "text": "This section reveals a major story event."
+              }
+            },
+            {
+              "heading": "The Battle with the Balrog",
+              "icon": "🔥",
+              "body": [
+                "In the Mines of Moria, Gandalf stood alone against the Balrog so the Fellowship could escape. The two fell together into the depths, locked in battle.",
+                "Gandalf perished in that fight. But it was not the end for him."
+              ],
+              "spoiler": {
+                "label": "🚨 Critical Spoiler",
+                "level": "spoiler",
+                "text": "Do not read this section if you haven't finished the films or books yet."
+              }
+            },
+            {
+              "heading": "Gandalf the White",
+              "icon": "⚪",
+              "body": [
+                "After his battle with the Balrog, Gandalf returned — but no longer as the Grey. He came back as Gandalf the White, elevated in rank and purpose for the final struggle against Sauron's forces.",
+                "From then on, Gandalf played a key role in confronting Saruman and uniting the free peoples, becoming one of the leading figures of the resistance against the darkness."
+              ],
+              "spoiler": {
+                "label": "🚨 Critical Spoiler",
+                "level": "spoiler",
+                "text": "This section reveals one of Gandalf's most important transformations."
+              }
+            },
+            {
+              "heading": "Gandalf's Character",
+              "icon": "🧠",
+              "body": [
+                "Gandalf never sought power or dominion. He believed that even the smallest and seemingly least important beings could shape the fate of the world — his trust in Bilbo, and later Frodo, is the clearest proof of that belief.",
+                "For Gandalf, hope was never something reserved for good times. Even in the darkest moments, he worked to keep it alive."
+              ]
+            },
+            {
+              "heading": "Gandalf's Fate",
+              "icon": "🌅",
+              "body": [
+                "After the destruction of the One Ring and Sauron's defeat, Gandalf's mission in Middle-earth came to an end.",
+                "He journeyed to the Grey Havens and sailed west to Valinor together with Frodo, Bilbo, and his other companions, closing the story of his time in Middle-earth — though his impact on its history endured."
+              ],
+              "spoiler": {
+                "label": "🚨🚨 Ending Spoiler",
+                "level": "final",
+                "text": "Warning: this section reveals the ending of The Lord of the Rings."
+              }
+            },
+            {
+              "heading": "Gandalf's Legacy",
+              "icon": "🏆",
+              "body": [
+                "Gandalf was never just an old man with a staff and a long cloak. He was Olórin, one of the Maiar, and one of the greatest forces standing against the darkness. Yet his greatest strength was never simply his magic or his skill in battle.",
+                "Wisdom, courage, hope, sacrifice, and the ability to inspire others — these are what made Gandalf one of the most enduring characters in fantasy.",
+                "He showed others that changing the course of fate doesn't require being the most powerful being in the world. Sometimes, one small decision by an ordinary person can change the course of history."
+              ]
+            }
+          ],
+          "abilities": [
+            {
+              "title": "The Power of a Maia",
+              "text": "Gandalf's true nature as a Maia gave him an existence far beyond that of mortals."
+            },
+            {
+              "title": "Magic",
+              "text": "He could wield magical forces and produce supernatural effects."
+            },
+            {
+              "title": "Combat Skill",
+              "text": "Gandalf was far more than a wizard — he was a skilled fighter who wielded the sword Glamdring."
+            },
+            {
+              "title": "Vast Knowledge",
+              "text": "His deep knowledge of history, creatures, and the powers of Middle-earth was one of his most vital tools."
+            },
+            {
+              "title": "Leadership",
+              "text": "He had a rare ability to guide others and unite different forces in times of crisis."
+            },
+            {
+              "title": "Resistance to Darkness",
+              "text": "Gandalf showed great resistance to the temptation of power and the influence of dark forces."
+            }
+          ],
+          "trivia": [
+            "Gandalf's true name is Olórin.",
+            "He is not a man — he is one of the Maiar.",
+            "He was one of the Istari, sent to Middle-earth to oppose Sauron.",
+            "After his battle with the Balrog, Gandalf returned as Gandalf the White.",
+            "He played a key role in uncovering the truth about Bilbo's ring and launching the quest to destroy it.",
+            "Gandalf relied more on wisdom, hope, and guiding others than on raw power."
+          ]
+        }
+      }
     },
     {
       "id": "goku",
@@ -127,21 +362,52 @@
         "text": "این صفحه شامل اسپویلرهای مهمی از دراگون‌بال، دراگون‌بال زد و دراگون‌بال سوپر است؛ از جمله هویت واقعی گوکو، نبردش با فریزا، مرگ‌ها و بازگشت‌های او و رسیدن به غریزه‌ی خودآگاه. اگر داستان را کامل دنبال نکرده‌اید، ادامه را با احتیاط بخوانید."
       },
       "stats": [
-        { "label": "نام", "value": "سون گوکو (Son Goku)" },
-        { "label": "نام سایانی", "value": "کاکاروت (Kakarot)" },
-        { "label": "نژاد", "value": "سایان (Saiyan)" },
-        { "label": "سیاره‌ی زادگاه", "value": "وجیتا" },
-        { "label": "خانه", "value": "زمین" },
-        { "label": "نقش", "value": "مبارز و محافظ زمین" },
-        { "label": "همسر", "value": "چی‌چی" },
-        { "label": "فرزندان", "value": "گوهان و گوتن" },
-        { "label": "استادان", "value": "استاد روشی، کائو، ویس" }
+        {
+          "label": "نام",
+          "value": "سون گوکو (Son Goku)"
+        },
+        {
+          "label": "نام سایانی",
+          "value": "کاکاروت (Kakarot)"
+        },
+        {
+          "label": "نژاد",
+          "value": "سایان (Saiyan)"
+        },
+        {
+          "label": "سیاره‌ی زادگاه",
+          "value": "وجیتا"
+        },
+        {
+          "label": "خانه",
+          "value": "زمین"
+        },
+        {
+          "label": "نقش",
+          "value": "مبارز و محافظ زمین"
+        },
+        {
+          "label": "همسر",
+          "value": "چی‌چی"
+        },
+        {
+          "label": "فرزندان",
+          "value": "گوهان و گوتن"
+        },
+        {
+          "label": "استادان",
+          "value": "استاد روشی، کائو، ویس"
+        }
       ],
       "sections": [
         {
           "icon": "🧬",
           "heading": "هویت واقعی گوکو",
-          "spoiler": { "level": "spoiler", "label": "🚨 اسپویلر مهم", "text": "این بخش هویت واقعی گوکو را آشکار می‌کند." },
+          "spoiler": {
+            "level": "spoiler",
+            "label": "🚨 اسپویلر مهم",
+            "text": "این بخش هویت واقعی گوکو را آشکار می‌کند."
+          },
           "body": [
             "برخلاف تصور اولیه، گوکو یک انسان زمینی نیست. او در واقع کاکاروت نام دارد؛ نوزادی از نژاد سایان که از سیاره‌ی وجیتا به زمین فرستاده شد.",
             "طبق نقشه‌ی اصلی، او قرار بود پس از بزرگ شدن زمین را برای تسخیر سایان‌ها آماده کند؛ اما ضربه‌ای که در کودکی به سرش خورد، خشونت ذاتی‌اش را از میان برد و مسیر زندگی‌اش را کاملاً تغییر داد.",
@@ -160,7 +426,11 @@
         {
           "icon": "🐒",
           "heading": "اوزارو",
-          "spoiler": { "level": "spoiler", "label": "🚨 اسپویلر", "text": "این بخش یکی از رازهای اولیه‌ی گوکو را فاش می‌کند." },
+          "spoiler": {
+            "level": "spoiler",
+            "label": "🚨 اسپویلر",
+            "text": "این بخش یکی از رازهای اولیه‌ی گوکو را فاش می‌کند."
+          },
           "body": [
             "دم میمونی که گوکو در کودکی داشت، تنها یک ویژگی ظاهری نبود؛ زیر نور مستقیم ماه کامل، همین دم او را به اوزارو، غول میمون‌مانندی با قدرت مخرب، تبدیل می‌کرد.",
             "این پدیده یکی از نخستین نشانه‌ها بود که ریشه‌ی سایانی گوکو را آشکار کرد، هرچند بعدها با از دست دادن دمش، دیگر نقش چندانی در مسیر رشدش نداشت."
@@ -169,7 +439,11 @@
         {
           "icon": "🟡",
           "heading": "تبدیل به سوپر سایان",
-          "spoiler": { "level": "spoiler", "label": "🚨🚨 اسپویلر مهم", "text": "این بخش یکی از نقاط عطف مهم داستان را فاش می‌کند." },
+          "spoiler": {
+            "level": "spoiler",
+            "label": "🚨🚨 اسپویلر مهم",
+            "text": "این بخش یکی از نقاط عطف مهم داستان را فاش می‌کند."
+          },
           "body": [
             "در سیاره‌ی نامک و در میانه‌ی نبردی سرنوشت‌ساز با فریزا، خشم و اندوه گوکو پس از از دست دادن کریلین به اوج رسید و نیرویی که قرن‌ها در نژاد سایان خفته بود، در وجودش بیدار شد.",
             "این نخستین تبدیل به سوپر سایان صرفاً جهشی در قدرت نبود؛ نشان داد که احساسات عمیق، به‌ویژه غم از دست دادن یک دوست، می‌توانند دری به‌روی توانایی‌هایی کاملاً تازه بگشایند.",
@@ -179,7 +453,11 @@
         {
           "icon": "☠️",
           "heading": "مرگ‌ها و بازگشت‌ها",
-          "spoiler": { "level": "spoiler", "label": "🚨🚨 اسپویلر", "text": "این بخش درباره‌ی مرگ و بازگشت گوکو در طول داستان است." },
+          "spoiler": {
+            "level": "spoiler",
+            "label": "🚨🚨 اسپویلر",
+            "text": "این بخش درباره‌ی مرگ و بازگشت گوکو در طول داستان است."
+          },
           "body": [
             "گوکو در طول سال‌ها بارها جان خود را از دست داده؛ از جمله زمانی که برای متوقف کردن برادرش رادیتز، آگاهانه خودش را در برابر حمله‌ای مرگبار قرار داد.",
             "اما در دنیای دراگون‌بال، مرگ همیشه نقطه‌ی پایان نیست؛ با کمک گوی‌های اژدها، گوکو بارها به زندگی بازگشته و هر بار این تجربه به‌نوعی بر مسیر و روابطش اثر گذاشته است."
@@ -188,7 +466,11 @@
         {
           "icon": "🏟️",
           "heading": "تورنمنت قدرت و غریزه‌ی خودآگاه",
-          "spoiler": { "level": "spoiler", "label": "🚨🚨 اسپویلر دراگون‌بال سوپر", "text": "این بخش رویدادهای دراگون‌بال سوپر را فاش می‌کند." },
+          "spoiler": {
+            "level": "spoiler",
+            "label": "🚨🚨 اسپویلر دراگون‌بال سوپر",
+            "text": "این بخش رویدادهای دراگون‌بال سوپر را فاش می‌کند."
+          },
           "body": [
             "در تورنمنت قدرت، گوکو به نمایندگی از جهان هفتم در برابر قوی‌ترین مبارزان جهان‌های دیگر ایستاد؛ رقابتی که مرزهای توانش را بیش از هر زمان دیگری به چالش کشید.",
             "در اوج فشار این نبردها، برای نخستین بار جرقه‌ی غریزه‌ی خودآگاه در او زده شد؛ حالتی که در آن بدن مبارز بدون دخالت آگاهانه‌ی ذهن، به‌طور خودکار به حمله واکنش نشان می‌دهد.",
@@ -222,13 +504,34 @@
         }
       ],
       "abilities": [
-        { "title": "سوپر سایان", "text": "نخستین تبدیل بزرگ سایانی گوکو که در پی خشم و اندوهی عمیق برای اولین بار آزاد شد." },
-        { "title": "سوپر سایان بلو", "text": "ترکیبی از قدرت سوپر سایان با انرژی الهی‌ای که از تمرین در کنار موجودات خدایگون به‌دست آمده." },
-        { "title": "غریزه‌ی خودآگاه", "text": "پیشرفته‌ترین حالت مبارزاتی گوکو که در آن بدن بدون تصمیم‌گیری آگاهانه به حملات واکنش نشان می‌دهد." },
-        { "title": "کامهامه‌ها", "text": "مشهورترین تکنیک انرژی گوکو، آموخته از استاد روشی و توسعه‌یافته در طول سال‌ها." },
-        { "title": "کایوکن", "text": "تکنیکی آموخته از کائو که با افزایشی موقت و پرخطر در قدرت و سرعت همراه است." },
-        { "title": "گنکی داما", "text": "گویی از انرژی که با گردآوری نیروی موجودات زنده‌ی یک سیاره یا حتی یک جهان ساخته می‌شود." },
-        { "title": "انتقال آنی", "text": "توانایی جابه‌جایی آنی در فضا که گوکو آن را در سیاره‌ی یاردرت فرا گرفت." }
+        {
+          "title": "سوپر سایان",
+          "text": "نخستین تبدیل بزرگ سایانی گوکو که در پی خشم و اندوهی عمیق برای اولین بار آزاد شد."
+        },
+        {
+          "title": "سوپر سایان بلو",
+          "text": "ترکیبی از قدرت سوپر سایان با انرژی الهی‌ای که از تمرین در کنار موجودات خدایگون به‌دست آمده."
+        },
+        {
+          "title": "غریزه‌ی خودآگاه",
+          "text": "پیشرفته‌ترین حالت مبارزاتی گوکو که در آن بدن بدون تصمیم‌گیری آگاهانه به حملات واکنش نشان می‌دهد."
+        },
+        {
+          "title": "کامهامه‌ها",
+          "text": "مشهورترین تکنیک انرژی گوکو، آموخته از استاد روشی و توسعه‌یافته در طول سال‌ها."
+        },
+        {
+          "title": "کایوکن",
+          "text": "تکنیکی آموخته از کائو که با افزایشی موقت و پرخطر در قدرت و سرعت همراه است."
+        },
+        {
+          "title": "گنکی داما",
+          "text": "گویی از انرژی که با گردآوری نیروی موجودات زنده‌ی یک سیاره یا حتی یک جهان ساخته می‌شود."
+        },
+        {
+          "title": "انتقال آنی",
+          "text": "توانایی جابه‌جایی آنی در فضا که گوکو آن را در سیاره‌ی یاردرت فرا گرفت."
+        }
       ],
       "trivia": [
         "نام سایانی گوکو کاکاروت است.",
@@ -240,7 +543,210 @@
         "در تورنمنت قدرت، برای نخستین بار به‌طور جدی به غریزه‌ی خودآگاه دست یافت.",
         "با وجود قدرت عظیمش، هیچ‌گاه به دنبال حکومت یا سلطه بر دیگران نبوده است."
       ],
-      "tags": ["DragonBall", "Goku", "SonGoku", "Kakarot", "Saiyan", "DragonBallZ", "DragonBallSuper"]
+      "tags": [
+        "DragonBall",
+        "Goku",
+        "SonGoku",
+        "Kakarot",
+        "Saiyan",
+        "DragonBallZ",
+        "DragonBallSuper"
+      ],
+      "translations": {
+        "en": {
+          "name": "Son Goku",
+          "latin": "SON GOKU",
+          "byline": "Earth's Saiyan Hero",
+          "quote": "“A strong opponent isn't an enemy — it's a door to new power.”",
+          "caption": "All of Goku's transformations, from Super Saiyan to Ultra Instinct",
+          "notice": {
+            "label": "⚠️ Spoiler Warning",
+            "text": "This page contains major spoilers from Dragon Ball, Dragon Ball Z, and Dragon Ball Super — including Goku's true identity, his battle with Frieza, his deaths and returns, and his achievement of Ultra Instinct. Read on with caution if you haven't finished the story."
+          },
+          "stats": [
+            {
+              "label": "Name",
+              "value": "Son Goku"
+            },
+            {
+              "label": "Saiyan Name",
+              "value": "Kakarot"
+            },
+            {
+              "label": "Race",
+              "value": "Saiyan"
+            },
+            {
+              "label": "Home Planet",
+              "value": "Vegeta"
+            },
+            {
+              "label": "Home",
+              "value": "Earth"
+            },
+            {
+              "label": "Role",
+              "value": "Fighter and protector of Earth"
+            },
+            {
+              "label": "Spouse",
+              "value": "Chi-Chi"
+            },
+            {
+              "label": "Children",
+              "value": "Gohan and Goten"
+            },
+            {
+              "label": "Masters",
+              "value": "Master Roshi, King Kai, Whis"
+            }
+          ],
+          "sections": [
+            {
+              "heading": "Goku's True Identity",
+              "icon": "🧬",
+              "body": [
+                "Contrary to first appearances, Goku isn't from Earth. His real name is Kakarot — an infant of the Saiyan race sent to Earth from the planet Vegeta.",
+                "According to the original plan, he was meant to grow up and prepare Earth for Saiyan conquest; but a blow to the head as a child wiped out his innate violence and completely changed the course of his life.",
+                "From then on, Goku grew up with Earth's values, and over the years came to see Earth not as a mission, but as his true home."
+              ],
+              "spoiler": {
+                "label": "🚨 Major Spoiler",
+                "level": "spoiler",
+                "text": "This section reveals Goku's true identity."
+              }
+            },
+            {
+              "heading": "The Start of an Adventurer",
+              "icon": "👶",
+              "body": [
+                "Grandpa Gohan found a young boy named Goku in the mountains and raised him, which meant Goku grew up far from cities and people, but in an environment full of physical training.",
+                "His quiet life changed when he met Bulma and joined her search for the Dragon Balls. On that journey he met Master Roshi, Krillin, and Yamcha, and began serious martial arts training.",
+                "Even in his youth, what set Goku apart was never a hunger to win — it was his pure passion for learning and testing his strength against any new opponent."
+              ]
+            },
+            {
+              "heading": "Great Ape (Oozaru)",
+              "icon": "🐒",
+              "body": [
+                "The monkey tail Goku had as a child wasn't just a physical trait — under the light of a full moon, it transformed him into Oozaru, a giant ape-like creature of destructive power.",
+                "This was one of the first signs that revealed Goku's Saiyan origins, though after his tail was later removed, it played little further role in his growth."
+              ],
+              "spoiler": {
+                "label": "🚨 Spoiler",
+                "level": "spoiler",
+                "text": "This section reveals one of Goku's early secrets."
+              }
+            },
+            {
+              "heading": "The Super Saiyan Transformation",
+              "icon": "🟡",
+              "body": [
+                "On planet Namek, in the middle of a fateful battle with Frieza, Goku's grief and rage after losing Krillin reached their peak, awakening a power that had lain dormant in the Saiyan race for generations.",
+                "This first transformation into a Super Saiyan wasn't simply a jump in power — it showed that deep emotion, especially the grief of losing a friend, could unlock entirely new abilities.",
+                "From then on, this transformation became one of the most iconic symbols of the entire series, paving the way for Goku's later transformations."
+              ],
+              "spoiler": {
+                "label": "🚨🚨 Major Spoiler",
+                "level": "spoiler",
+                "text": "This section reveals a major turning point in the story."
+              }
+            },
+            {
+              "heading": "Deaths and Returns",
+              "icon": "☠️",
+              "body": [
+                "Goku has lost his life more than once over the years — including the time he knowingly sacrificed himself to stop his brother Raditz's deadly attack.",
+                "But in the world of Dragon Ball, death is rarely the end. With the help of the Dragon Balls, Goku has returned to life several times, and each experience has left its mark on his path and his relationships."
+              ],
+              "spoiler": {
+                "label": "🚨🚨 Spoiler",
+                "level": "spoiler",
+                "text": "This section covers Goku's deaths and returns throughout the story."
+              }
+            },
+            {
+              "heading": "The Tournament of Power and Ultra Instinct",
+              "icon": "🏟️",
+              "body": [
+                "In the Tournament of Power, Goku represented Universe 7 against the strongest fighters from other universes — a contest that challenged the limits of his strength more than ever before.",
+                "Under the pressure of these battles, he first sparked Ultra Instinct — a state in which the fighter's body reacts to attacks automatically, without conscious thought.",
+                "This breakthrough opened a new path for Goku's growth, one no longer dependent solely on raw power, but on mastery of mind and body at an entirely different level."
+              ],
+              "spoiler": {
+                "label": "🚨🚨 Dragon Ball Super Spoiler",
+                "level": "spoiler",
+                "text": "This section reveals events from Dragon Ball Super."
+              }
+            },
+            {
+              "heading": "Goku's Character",
+              "icon": "🧠",
+              "body": [
+                "At first glance, Goku seems simple, kind-hearted, and always hungry; but behind that simplicity lies a deep drive for constant growth that shapes nearly every important decision he makes.",
+                "He never seeks power in order to rule — even with his immense abilities, he has no interest in formal titles or authority, and prefers to choose his own path freely.",
+                "For Goku, a strong opponent isn't an enemy, but a chance to discover new limits; this outlook sometimes makes him underestimate danger, since the thrill of battle can outweigh his caution."
+              ]
+            },
+            {
+              "heading": "Rivalry with Vegeta",
+              "icon": "🥊",
+              "body": [
+                "Goku's relationship with Vegeta began in hostility, but over time became one of the deepest and most meaningful rivalries in the story.",
+                "Vegeta's existence has always pushed Goku to grow stronger, and in turn, Goku's presence has helped Vegeta build an identity beyond just the title ‘Prince of the Saiyans.’"
+              ]
+            },
+            {
+              "heading": "The Legacy of a Legend",
+              "icon": "🏆",
+              "body": [
+                "Goku's story began as a child in the mountains and grew into battles on a cosmic scale; but what has remained constant throughout is his endless passion for improvement.",
+                "He has become one of the most recognizable figures in anime history — not only for his strength, but because he showed that defeat, too, can be a natural part of growth."
+              ]
+            }
+          ],
+          "abilities": [
+            {
+              "title": "Super Saiyan",
+              "text": "Goku's first major Saiyan transformation, unleashed for the first time by deep rage and grief."
+            },
+            {
+              "title": "Super Saiyan Blue",
+              "text": "A fusion of Super Saiyan power with divine energy gained from training alongside godly beings."
+            },
+            {
+              "title": "Ultra Instinct",
+              "text": "Goku's most advanced combat state, in which the body reacts to attacks without conscious thought."
+            },
+            {
+              "title": "Kamehameha",
+              "text": "Goku's signature energy technique, learned from Master Roshi and developed over the years."
+            },
+            {
+              "title": "Kaio-ken",
+              "text": "A technique learned from King Kai that grants a risky, temporary boost in power and speed."
+            },
+            {
+              "title": "Spirit Bomb",
+              "text": "A ball of energy gathered from the life force of an entire planet, or even a whole universe."
+            },
+            {
+              "title": "Instant Transmission",
+              "text": "The ability to teleport instantly through space, which Goku learned on planet Yardrat."
+            }
+          ],
+          "trivia": [
+            "Goku's Saiyan name is Kakarot.",
+            "He was sent to Earth as an infant and raised by Grandpa Gohan.",
+            "His Saiyan tail transformed him into the giant ape-like Oozaru under a full moon.",
+            "His first transformation into a Super Saiyan happened during the battle with Frieza.",
+            "He first learned the Kamehameha from Master Roshi.",
+            "He learned Instant Transmission on the planet Yardrat.",
+            "He first seriously achieved Ultra Instinct during the Tournament of Power.",
+            "Despite his immense power, he has never sought to rule or dominate others."
+          ]
+        }
+      }
     }
   ]
 }
