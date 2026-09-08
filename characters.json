@@ -346,7 +346,8 @@
             "Gandalf relied more on wisdom, hope, and guiding others than on raw power."
           ]
         }
-      }
+      },
+      "franchise": "lotr"
     },
     {
       "id": "goku",
@@ -744,6 +745,247 @@
             "He learned Instant Transmission on the planet Yardrat.",
             "He first seriously achieved Ultra Instinct during the Tournament of Power.",
             "Despite his immense power, he has never sought to rule or dominate others."
+          ]
+        }
+      },
+      "franchise": "dragon-ball"
+    }
+  ],
+  "franchises": [
+    {
+      "id": "dragon-ball",
+      "type": "anime",
+      "name": "دراگون بال",
+      "latin": "DRAGON BALL",
+      "tagline": "قهرمانی سایانی، هفت گوی جادویی و نبردی بی‌پایان برای سرنوشت جهان",
+      "cover": "goku-cover.jpg",
+      "glyph": "🐉",
+      "tags": [
+        "DragonBall",
+        "Anime",
+        "Shounen",
+        "Action"
+      ],
+      "info": {
+        "creator": "آکیرا توریایاما",
+        "studio": "Toei Animation",
+        "origin": "ژاپن",
+        "years": "۱۹۸۶ – تاکنون",
+        "status": "در حال انتشار (دراگون بال سوپر)",
+        "genres": [
+          "اکشن",
+          "ماجراجویی",
+          "فانتزی",
+          "کمدی",
+          "شونن"
+        ],
+        "synopsis": [
+          "دراگون بال داستان سون گوکو، پسری با قدرتی فوق‌العاده و قلبی ساده است که از کودکی تا بزرگسالی، در کنار دوستان و رقیبانش، برای محافظت از زمین در برابر دشمنانی هرچه قدرتمندتر می‌جنگد.",
+          "این مجموعه که بر پایه‌ی مانگای آکیرا توریایاما ساخته شده، طی چند دهه به یکی از تأثیرگذارترین و شناخته‌شده‌ترین آثار انیمه در سراسر جهان تبدیل شده و مسیر ژانر شونن را برای نسل‌های بعدی هموار کرده است."
+        ]
+      },
+      "episodesLabel": "فصل‌های اصلی",
+      "episodes": [
+        {
+          "title": "دراگون بال",
+          "years": "۱۹۸۶–۱۹۸۹",
+          "count": "153 قسمت",
+          "desc": "ماجراهای گوکوی نوجوان در جست‌وجوی گوی‌های اژدها و رشدش به‌عنوان یک هنرمند رزمی."
+        },
+        {
+          "title": "دراگون بال زد",
+          "years": "۱۹۸۹–۱۹۹۶",
+          "count": "291 قسمت",
+          "desc": "نبردهای بزرگ گوکوی بزرگسال با وجیتا، فریزا، سل و بو برای نجات زمین و جهان."
+        },
+        {
+          "title": "دراگون بال سوپر",
+          "years": "۲۰۱۵–۲۰۱۸",
+          "count": "131 قسمت",
+          "desc": "ادامه‌ی داستان با تورنمنت قدرت و رویارویی با موجوداتی از جهان‌های دیگر."
+        }
+      ],
+      "castLabel": "دوبلورها",
+      "cast": [
+        {
+          "character": "سون گوکو",
+          "role": "صداپیشه‌ی ژاپنی",
+          "name": "ماساکو نوزاوا"
+        },
+        {
+          "character": "سون گوکو",
+          "role": "صداپیشه‌ی انگلیسی",
+          "name": "شان شیمل"
+        }
+      ],
+      "charactersRef": [
+        "goku"
+      ],
+      "translations": {
+        "en": {
+          "name": "Dragon Ball",
+          "latin": "DRAGON BALL",
+          "tagline": "A Saiyan hero, seven magic orbs, and an endless fight for the fate of the world",
+          "info": {
+            "creator": "Akira Toriyama",
+            "studio": "Toei Animation",
+            "origin": "Japan",
+            "years": "1986 – present",
+            "status": "Ongoing (Dragon Ball Super)",
+            "genres": [
+              "Action",
+              "Adventure",
+              "Fantasy",
+              "Comedy",
+              "Shounen"
+            ],
+            "synopsis": [
+              "Dragon Ball follows Son Goku, an extraordinarily powerful boy with a simple heart, as he grows from childhood to adulthood alongside friends and rivals, defending Earth against ever-stronger threats.",
+              "Based on Akira Toriyama's manga, the series has become one of the most influential and widely recognized anime franchises in the world, shaping the shounen genre for generations of creators that followed."
+            ]
+          },
+          "episodesLabel": "Main Sagas",
+          "episodes": [
+            {
+              "title": "Dragon Ball",
+              "years": "1986–1989",
+              "count": "153 episodes",
+              "desc": "A young Goku's quest for the Dragon Balls and his growth as a martial artist."
+            },
+            {
+              "title": "Dragon Ball Z",
+              "years": "1989–1996",
+              "count": "291 episodes",
+              "desc": "Adult Goku's battles against Vegeta, Frieza, Cell, and Buu to save the Earth and the universe."
+            },
+            {
+              "title": "Dragon Ball Super",
+              "years": "2015–2018",
+              "count": "131 episodes",
+              "desc": "The story continues with the Tournament of Power and fighters from other universes."
+            }
+          ],
+          "castLabel": "Voice Cast",
+          "cast": [
+            {
+              "character": "Son Goku",
+              "role": "Japanese voice actor",
+              "name": "Masako Nozawa"
+            },
+            {
+              "character": "Son Goku",
+              "role": "English voice actor",
+              "name": "Sean Schemmel"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "lotr",
+      "type": "film",
+      "name": "ارباب حلقه‌ها",
+      "latin": "THE LORD OF THE RINGS",
+      "tagline": "اتحادیه‌ای از انسان‌ها، الف‌ها، دورف‌ها و هابیت‌ها در برابر تاریک‌ترین نیروی سرزمین میانه",
+      "cover": "gandalf-cover.jpeg",
+      "glyph": "💍",
+      "tags": [
+        "LOTR",
+        "MiddleEarth",
+        "Fantasy",
+        "Film"
+      ],
+      "info": {
+        "director": "پیتر جکسون",
+        "basedOn": "رمان‌های جی.آر.آر. تالکین",
+        "studio": "New Line Cinema",
+        "origin": "نیوزیلند / آمریکا",
+        "years": "۲۰۰۱–۲۰۰۳",
+        "genres": [
+          "فانتزی",
+          "حماسی",
+          "ماجراجویی"
+        ],
+        "synopsis": [
+          "ارباب حلقه‌ها داستان اتحادیه‌ای از انسان‌ها، الف‌ها، دورف‌ها و هابیت‌هاست که برای نابودی حلقه‌ی یگانه و شکست دادن سائورون، تاریک‌ترین نیروی سرزمین میانه، دست به سفری خطرناک می‌زنند.",
+          "این سه‌گانه با اقتباس از رمان‌های جی.آر.آر. تالکین ساخته شد و به یکی از تأثیرگذارترین و پرافتخارترین مجموعه‌های تاریخ سینما تبدیل شد."
+        ]
+      },
+      "episodesLabel": "فیلم‌ها",
+      "episodes": [
+        {
+          "title": "یاران حلقه",
+          "years": "۲۰۰۱",
+          "desc": "آغاز سفر فرودو و یارانش برای بردن حلقه به موردور."
+        },
+        {
+          "title": "دو برج",
+          "years": "۲۰۰۲",
+          "desc": "جدایی یاران و نبردهای بزرگ در روهان و ایزنگارد."
+        },
+        {
+          "title": "بازگشت پادشاه",
+          "years": "۲۰۰۳",
+          "desc": "نبرد نهایی برای سرزمین میانه و نابودی حلقه‌ی یگانه."
+        }
+      ],
+      "castLabel": "بازیگران",
+      "cast": [
+        {
+          "character": "گندالف",
+          "role": "بازیگر",
+          "name": "ایان مک‌کلن"
+        }
+      ],
+      "charactersRef": [
+        "gandalf"
+      ],
+      "translations": {
+        "en": {
+          "name": "The Lord of the Rings",
+          "latin": "THE LORD OF THE RINGS",
+          "tagline": "A fellowship of Men, Elves, Dwarves, and Hobbits against the darkest power in Middle-earth",
+          "info": {
+            "director": "Peter Jackson",
+            "basedOn": "J.R.R. Tolkien's novels",
+            "studio": "New Line Cinema",
+            "origin": "New Zealand / USA",
+            "years": "2001–2003",
+            "genres": [
+              "Fantasy",
+              "Epic",
+              "Adventure"
+            ],
+            "synopsis": [
+              "The Lord of the Rings follows a fellowship of Men, Elves, Dwarves, and Hobbits on a perilous journey to destroy the One Ring and defeat Sauron, the darkest power in Middle-earth.",
+              "Adapted from J.R.R. Tolkien's novels, the trilogy became one of the most influential and acclaimed film series in cinema history."
+            ]
+          },
+          "episodesLabel": "Films",
+          "episodes": [
+            {
+              "title": "The Fellowship of the Ring",
+              "years": "2001",
+              "desc": "Frodo and his companions begin their journey to carry the Ring to Mordor."
+            },
+            {
+              "title": "The Two Towers",
+              "years": "2002",
+              "desc": "The Fellowship splits apart amid major battles in Rohan and Isengard."
+            },
+            {
+              "title": "The Return of the King",
+              "years": "2003",
+              "desc": "The final battle for Middle-earth and the destruction of the One Ring."
+            }
+          ],
+          "castLabel": "Cast",
+          "cast": [
+            {
+              "character": "Gandalf",
+              "role": "Actor",
+              "name": "Ian McKellen"
+            }
           ]
         }
       }

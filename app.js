@@ -3,6 +3,7 @@ const tg = window.Telegram ? window.Telegram.WebApp : null;
 /* ---------- persisted state ---------- */
 const LS_LANG = 'xzone_lang';
 const LS_THEME = 'xzone_theme';
+const LS_SPOILERS = 'xzone_spoilers_ok';
 
 let LANG = localStorage.getItem(LS_LANG) || 'fa';
 let THEME = localStorage.getItem(LS_THEME) || 'dark';
@@ -23,15 +24,25 @@ applyDocumentAttrs();
 function setLang(l) { LANG = l; localStorage.setItem(LS_LANG, l); applyDocumentAttrs(); render(); }
 function setTheme(th) { THEME = th; localStorage.setItem(LS_THEME, th); applyDocumentAttrs(); }
 
+/* ---------- spoiler confirmation state ---------- */
+function getSpoilerSet() {
+  try { return new Set(JSON.parse(localStorage.getItem(LS_SPOILERS) || '[]')); }
+  catch (e) { return new Set(); }
+}
+function isSpoilerConfirmed(cid) { return getSpoilerSet().has(cid); }
+function confirmSpoiler(cid) {
+  const s = getSpoilerSet();
+  s.add(cid);
+  localStorage.setItem(LS_SPOILERS, JSON.stringify([...s]));
+}
+
 /* ---------- UI strings ---------- */
 const STRINGS = {
   fa: {
-    title: '『𝖃』𝑵𝑬𝑻𝑾𝑶𝑹𝑲 𝙰𝚛𝚌𝚑𝚒𝚟𝚎',
-    subtitle: 'انیمه · فیلم · سریال · دنیاها · شخصیت‌ها',
-    searchPlaceholder: 'جست‌وجوی بایگانی...',
-    characterSearchPlaceholder: 'جست‌وجوی شخصیت...',
-    empty: 'موردی یافت نشد.',
-    emptyCharacters: 'شخصیتی برای این آرشیو وجود ندارد.',
+    title: '『𝖃』𝑵𝑬𝑻𝑾𝑶𝑹𝑲 𝙻𝚒𝚋𝚛𝚊𝚛𝚢',
+    subtitle: 'فرنچایزها · دنیاها · شخصیت‌ها',
+    searchPlaceholder: 'جست‌وجو...',
+    empty: 'چیزی یافت نشد.',
     loadError: 'بایگانی بارگذاری نشد. characters.json را بررسی کنید.',
     back: 'بازگشت',
     dossier: 'مشخصات شخصیت',
@@ -42,29 +53,22 @@ const STRINGS = {
     themeDark: 'حالت تاریک',
     langBtn: 'EN',
     footerTagline: 'One Network • Infinite Worlds',
-    info: 'اطلاعات',
-    episodes: 'قسمت‌ها',
-    characters: 'شخصیت‌ها',
-    voiceActors: 'صداپیشگان',
-    movies: 'فیلم‌ها',
-    timeline: 'خط زمانی',
-    gallery: 'گالری',
-    related: 'مرتبط',
-    unavailable: 'این بخش هنوز برای این آرشیو تکمیل نشده است.',
-    archiveKind: 'آرشیو',
-    characterArchive: 'شخصیت‌های این دنیا',
+    tabInfo: 'اطلاعات',
+    tabCharacters: 'شخصیت‌ها',
+    details: 'جزئیات',
+    cancel: 'انصراف',
+    continueReading: 'ادامه مطلب',
     spoilerTitle: '⚠️ هشدار اسپویلر',
-    spoilerConfirm: 'اسپویلرهای این شخصیت را می‌پذیرم و می‌خواهم ادامه دهم.',
-    continue: 'مشاهده شخصیت',
-    cancel: 'لغو',
+    spoilerGeneric: 'این صفحه ممکن است شامل جزئیات مهمی از داستان باشد.',
+    spoilerCheckboxLabel: 'متوجه‌ام و می‌خواهم ادامه دهم',
+    spoilersUnlocked: 'هشدارهای اسپویلر برای این صفحه تأیید شده است',
+    infoLabels: { creator: 'سازنده', studio: 'استودیو', origin: 'خاستگاه', years: 'سال‌های پخش', status: 'وضعیت', director: 'کارگردان', basedOn: 'اقتباس از' }
   },
   en: {
-    title: '『𝖃』𝑵𝑬𝑻𝑾𝙊𝚁𝙺 𝙰𝚛𝚌𝚑𝚒𝚟𝚎',
-    subtitle: 'Anime · Movies · Series · Worlds · Characters',
-    searchPlaceholder: 'Search the archive…',
-    characterSearchPlaceholder: 'Search characters…',
+    title: '『𝖃』𝑵𝑬𝑻𝑾𝑶𝑹𝑲 𝙻𝚒𝚋𝚛𝚊𝚛𝚢',
+    subtitle: 'Franchises · Worlds · Characters',
+    searchPlaceholder: 'Search…',
     empty: 'Nothing found.',
-    emptyCharacters: 'No characters are available for this archive yet.',
     loadError: 'Could not load the archive. Please check characters.json.',
     back: 'Back',
     dossier: 'Character Profile',
@@ -75,21 +79,16 @@ const STRINGS = {
     themeDark: 'Dark mode',
     langBtn: 'فا',
     footerTagline: 'One Network • Infinite Worlds',
-    info: 'Info',
-    episodes: 'Episodes',
-    characters: 'Characters',
-    voiceActors: 'Voice Actors',
-    movies: 'Movies',
-    timeline: 'Timeline',
-    gallery: 'Gallery',
-    related: 'Related',
-    unavailable: 'This section has not been completed for this archive yet.',
-    archiveKind: 'Archive',
-    characterArchive: 'Characters from this world',
-    spoilerTitle: '⚠️ Spoiler Warning',
-    spoilerConfirm: 'I understand the spoilers and want to continue.',
-    continue: 'View Character',
+    tabInfo: 'Info',
+    tabCharacters: 'Characters',
+    details: 'Details',
     cancel: 'Cancel',
+    continueReading: 'Continue reading',
+    spoilerTitle: '⚠️ Spoiler Warning',
+    spoilerGeneric: 'This page may contain major story details.',
+    spoilerCheckboxLabel: 'I understand, and I want to continue',
+    spoilersUnlocked: 'Spoiler warnings confirmed for this page',
+    infoLabels: { creator: 'Creator', studio: 'Studio', origin: 'Origin', years: 'Years', status: 'Status', director: 'Director', basedOn: 'Based on' }
   }
 };
 function t(key) { return STRINGS[LANG][key]; }
@@ -97,59 +96,106 @@ function t(key) { return STRINGS[LANG][key]; }
 /* ---------- XZONE Network article content ---------- */
 const NETWORK = {
   fa: {
-    eyebrow: 'مرکز شبکه', title: 'شبکه XZONE', subtitle: 'One Network • Infinite Worlds ♾️',
-    intro: ['فندوم‌ها همیشه بزرگ بوده‌اند؛ اما وقتی از هم جدا باشند، قدرت واقعی آن‌ها دیده نمی‌شود.','🔥 شبکه XZONE برای تغییر همین موضوع ساخته شده است.','ما نمی‌خواهیم فقط یک شبکه از کانال‌ها باشیم. ما می‌خواهیم فندوم‌ها را به یکدیگر متصل کنیم، به آن‌ها نظم بدهیم و قدرت همکاری آن‌ها را آزاد کنیم.','ما از یک فندوم شروع می‌کنیم، اما هدف ما ساختن چیزی است که از مرز یک فندوم فراتر برود. 🌌'],
-    missionTitle: '🎯 مأموریت ما', missionBody: ['هدف XZONE ساده است: ساختن یک جامعه و اکوسیستم بزرگ که زندگی فندوم‌ها را آسان‌تر، منظم‌تر و لذت‌بخش‌تر کند.','از دسترسی سریع و منظم به محتوا و اخبار، تا گفت‌وگو، ارتباط، ایده‌پردازی و همکاری با طرفدارانی که علایق مشترک دارند.','اما این تنها قدم اول است. 🚀'],
-    visionTitle: '🌌 چشم‌انداز ما', visionBody: ['تصور کنید فندوم‌های مختلف دیگر فقط جوامعی جدا از یکدیگر نباشند.','تصور کنید بتوانند کنار هم قرار بگیرند، ایده‌های خود را به اشتراک بگذارند، پروژه‌های مشترک بسازند و برای آینده‌ی آثاری که دوست دارند، صدایی قدرتمندتر داشته باشند.','🎬 انیمه‌ها · 🎥 فیلم‌ها · 📺 سریال‌ها · 🌌 و تمام دنیاهایی که دوستشان داریم','از حمایت از آثار موردعلاقه، تا ساخت پروژه‌های طرفداری، ارائه‌ی ایده‌های خلاقانه، و تلاش برای شکل‌گیری دنباله‌ها، اسپین‌آف‌ها، بازسازی‌ها، اقتباس‌ها و پروژه‌های جدید برای آثاری که دوستشان داریم.','شبکه XZONE می‌خواهد پلی باشد میان فندوم‌هایی که امروز از هم جدا هستند؛ اما فردا می‌توانند در کنار یکدیگر چیزی بسیار بزرگ‌تر بسازند. 🤝'],
-    pillars: [{icon:'💬',label:'ارتباط'},{icon:'🤝',label:'همکاری'},{icon:'💡',label:'خلاقیت'},{icon:'📚',label:'نظم'},{icon:'🚀',label:'پیشرفت'}],
+    eyebrow: 'مرکز شبکه',
+    title: 'شبکه XZONE',
+    subtitle: 'One Network • Infinite Worlds ♾️',
+    intro: [
+      'فندوم‌ها همیشه بزرگ بوده‌اند؛ اما وقتی از هم جدا باشند، قدرت واقعی آن‌ها دیده نمی‌شود.',
+      '🔥 شبکه XZONE برای تغییر همین موضوع ساخته شده است.',
+      'ما نمی‌خواهیم فقط یک شبکه از کانال‌ها باشیم. ما می‌خواهیم فندوم‌ها را به یکدیگر متصل کنیم، به آن‌ها نظم بدهیم و قدرت همکاری آن‌ها را آزاد کنیم.',
+      'ما از یک فندوم شروع می‌کنیم، اما هدف ما ساختن چیزی است که از مرز یک فندوم فراتر برود. 🌌'
+    ],
+    missionTitle: '🎯 مأموریت ما',
+    missionBody: [
+      'هدف XZONE ساده است: ساختن یک جامعه و اکوسیستم بزرگ که زندگی فندوم‌ها را آسان‌تر، منظم‌تر و لذت‌بخش‌تر کند.',
+      'از دسترسی سریع و منظم به محتوا و اخبار، تا گفت‌وگو، ارتباط، ایده‌پردازی و همکاری با طرفدارانی که علایق مشترک دارند.',
+      'اما این تنها قدم اول است. 🚀'
+    ],
+    visionTitle: '🌌 چشم‌انداز ما',
+    visionBody: [
+      'تصور کنید فندوم‌های مختلف دیگر فقط جوامعی جدا از یکدیگر نباشند.',
+      'تصور کنید بتوانند کنار هم قرار بگیرند، ایده‌های خود را به اشتراک بگذارند، پروژه‌های مشترک بسازند و برای آینده‌ی آثاری که دوست دارند، صدایی قدرتمندتر داشته باشند.',
+      '🎬 انیمه‌ها · 🎥 فیلم‌ها · 📺 سریال‌ها · 🌌 و تمام دنیاهایی که دوستشان داریم',
+      'از حمایت از آثار موردعلاقه، تا ساخت پروژه‌های طرفداری، ارائه‌ی ایده‌های خلاقانه، و تلاش برای شکل‌گیری دنباله‌ها، اسپین‌آف‌ها، بازسازی‌ها، اقتباس‌ها و پروژه‌های جدید برای آثاری که دوستشان داریم.',
+      'شبکه XZONE می‌خواهد پلی باشد میان فندوم‌هایی که امروز از هم جدا هستند؛ اما فردا می‌توانند در کنار یکدیگر چیزی بسیار بزرگ‌تر بسازند. 🤝'
+    ],
+    pillars: [
+      { icon: '💬', label: 'ارتباط' }, { icon: '🤝', label: 'همکاری' },
+      { icon: '💡', label: 'خلاقیت' }, { icon: '📚', label: 'نظم' },
+      { icon: '🚀', label: 'پیشرفت' }
+    ],
     quote: '«یک فندوم می‌تواند صدایی ایجاد کند. اما فندوم‌های متحد می‌توانند آن صدا را به نیرویی واقعی تبدیل کنند. 🔥»',
-    closing: 'این فقط یک شبکه نیست. این آغاز یک اتحاد است. 🌐⚡', channelsTitle:'کانال‌های شبکه', channelsIntro:'هر کانال، یک جهان متفاوت. همه‌ی آن‌ها، زیرمجموعه‌ی یک شبکه.',
-    channels:[{icon:'🌐',name:'مرکز شبکه',handle:'@XZ_Network'},{icon:'🐉',name:'Dragon Ball',handle:'@XZ_DragonBall'},{icon:'🌌',name:'Multiverse',handle:'@XZ_Multiverse'},{icon:'⚔️',name:'Demon Slayer',handle:'@XZ_DemonSlayer'},{icon:'⚔️',name:'Bleach',handle:'@XZ_Bleach'},{icon:'🏴‍☠️',name:'One Piece',handle:'@XZ_OnePiece'},{icon:'🍥',name:'Naruto',handle:'@XZ_Naruto'},{icon:'👁️',name:'Jujutsu Kaisen',handle:'@XZ_JujutsuKaisen'},{icon:'🩸',name:'Invincible',handle:'@XZ_Invincible'},{icon:'🧙‍♂️',name:'Lord of the Rings',handle:'@XZ_LordOfTheRings'},{icon:'🌍',name:'Universal Group Chat',handle:'@XZONE_Topic'}],
-    cta:'✨ عضو XZONE شو؛ دنیای موردعلاقه‌ات را انتخاب کن.'
+    closing: 'این فقط یک شبکه نیست. این آغاز یک اتحاد است. 🌐⚡',
+    channelsTitle: 'کانال‌های شبکه',
+    channelsIntro: 'هر کانال، یک جهان متفاوت. همه‌ی آن‌ها، زیرمجموعه‌ی یک شبکه.',
+    channels: [
+      { icon: '🌐', name: 'مرکز شبکه', handle: '@XZ_Network' },
+      { icon: '🐉', name: 'Dragon Ball', handle: '@XZ_DragonBall' },
+      { icon: '🌌', name: 'Multiverse', handle: '@XZ_Multiverse' },
+      { icon: '⚔️', name: 'Demon Slayer', handle: '@XZ_DemonSlayer' },
+      { icon: '⚔️', name: 'Bleach', handle: '@XZ_Bleach' },
+      { icon: '🏴‍☠️', name: 'One Piece', handle: '@XZ_OnePiece' },
+      { icon: '🍥', name: 'Naruto', handle: '@XZ_Naruto' },
+      { icon: '👁️', name: 'Jujutsu Kaisen', handle: '@XZ_JujutsuKaisen' },
+      { icon: '🩸', name: 'Invincible', handle: '@XZ_Invincible' },
+      { icon: '🧙‍♂️', name: 'Lord of the Rings', handle: '@XZ_LordOfTheRings' },
+      { icon: '🌍', name: 'Universal Group Chat', handle: '@XZONE_Topic' }
+    ],
+    cta: '✨ عضو XZONE شو؛ دنیای موردعلاقه‌ات را انتخاب کن.'
   },
   en: {
-    eyebrow:'Network Hub', title:'XZONE Network', subtitle:'One Network • Infinite Worlds ♾️',
-    intro:['Fandoms have always been vast — but scattered apart, their real power stays hidden.','🔥 XZONE Network exists to change that.',"We don't want to be just another network of channels. We want to connect fandoms, bring them order, and unlock the power of working together.","We're starting with one fandom, but our goal reaches far beyond the borders of just one. 🌌"],
-    missionTitle:'🎯 Our Mission', missionBody:["XZONE's goal is simple: build a large community and ecosystem that makes fandom life easier, more organized, and more enjoyable.",'From fast, organized access to content and news, to discussion, connection, brainstorming, and collaboration with fans who share your interests.',"But that's only the first step. 🚀"],
-    visionTitle:'🌌 Our Vision', visionBody:['Imagine different fandoms no longer existing as separate, isolated communities.','Imagine them standing side by side, sharing ideas, building projects together, and having a stronger voice in shaping the future of the stories they love.','🎬 Anime · 🎥 Movies · 📺 TV Series · 🌌 and every world we love','From supporting the stories we love, to building fan projects, pitching creative ideas, and pushing for sequels, spin-offs, remakes, adaptations, and new projects for the works we care about.','XZONE wants to be the bridge between fandoms that are separate today, but could build something far bigger together tomorrow. 🤝'],
-    pillars:[{icon:'💬',label:'Connection'},{icon:'🤝',label:'Collaboration'},{icon:'💡',label:'Creativity'},{icon:'📚',label:'Order'},{icon:'🚀',label:'Progress'}],
-    quote:'"One fandom can raise a voice. But united fandoms can turn that voice into real power. 🔥"', closing:"This isn't just a network. It's the beginning of an alliance. 🌐⚡", channelsTitle:'Network Channels', channelsIntro:'Every channel is a different world. All of them, part of one network.',
-    channels:[{icon:'🌐',name:'Network Hub',handle:'@XZ_Network'},{icon:'🐉',name:'Dragon Ball',handle:'@XZ_DragonBall'},{icon:'🌌',name:'Multiverse',handle:'@XZ_Multiverse'},{icon:'⚔️',name:'Demon Slayer',handle:'@XZ_DemonSlayer'},{icon:'⚔️',name:'Bleach',handle:'@XZ_Bleach'},{icon:'🏴‍☠️',name:'One Piece',handle:'@XZ_OnePiece'},{icon:'🍥',name:'Naruto',handle:'@XZ_Naruto'},{icon:'👁️',name:'Jujutsu Kaisen',handle:'@XZ_JujutsuKaisen'},{icon:'🩸',name:'Invincible',handle:'@XZ_Invincible'},{icon:'🧙‍♂️',name:'Lord of the Rings',handle:'@XZ_LordOfTheRings'},{icon:'🌍',name:'Universal Group Chat',handle:'@XZONE_Topic'}],
-    cta:'✨ Join XZONE — pick your favorite world.'
+    eyebrow: 'Network Hub',
+    title: 'XZONE Network',
+    subtitle: 'One Network • Infinite Worlds ♾️',
+    intro: [
+      'Fandoms have always been vast — but scattered apart, their real power stays hidden.',
+      '🔥 XZONE Network exists to change that.',
+      "We don't want to be just another network of channels. We want to connect fandoms, bring them order, and unlock the power of working together.",
+      "We're starting with one fandom, but our goal reaches far beyond the borders of just one. 🌌"
+    ],
+    missionTitle: '🎯 Our Mission',
+    missionBody: [
+      "XZONE's goal is simple: build a large community and ecosystem that makes fandom life easier, more organized, and more enjoyable.",
+      'From fast, organized access to content and news, to discussion, connection, brainstorming, and collaboration with fans who share your interests.',
+      "But that's only the first step. 🚀"
+    ],
+    visionTitle: '🌌 Our Vision',
+    visionBody: [
+      'Imagine different fandoms no longer existing as separate, isolated communities.',
+      'Imagine them standing side by side, sharing ideas, building projects together, and having a stronger voice in shaping the future of the stories they love.',
+      '🎬 Anime · 🎥 Movies · 📺 TV Series · 🌌 and every world we love',
+      'From supporting the stories we love, to building fan projects, pitching creative ideas, and pushing for sequels, spin-offs, remakes, adaptations, and new projects for the works we care about.',
+      'XZONE wants to be the bridge between fandoms that are separate today, but could build something far bigger together tomorrow. 🤝'
+    ],
+    pillars: [
+      { icon: '💬', label: 'Connection' }, { icon: '🤝', label: 'Collaboration' },
+      { icon: '💡', label: 'Creativity' }, { icon: '📚', label: 'Order' },
+      { icon: '🚀', label: 'Progress' }
+    ],
+    quote: '"One fandom can raise a voice. But united fandoms can turn that voice into real power. 🔥"',
+    closing: "This isn't just a network. It's the beginning of an alliance. 🌐⚡",
+    channelsTitle: 'Network Channels',
+    channelsIntro: 'Every channel is a different world. All of them, part of one network.',
+    channels: [
+      { icon: '🌐', name: 'Network Hub', handle: '@XZ_Network' },
+      { icon: '🐉', name: 'Dragon Ball', handle: '@XZ_DragonBall' },
+      { icon: '🌌', name: 'Multiverse', handle: '@XZ_Multiverse' },
+      { icon: '⚔️', name: 'Demon Slayer', handle: '@XZ_DemonSlayer' },
+      { icon: '⚔️', name: 'Bleach', handle: '@XZ_Bleach' },
+      { icon: '🏴‍☠️', name: 'One Piece', handle: '@XZ_OnePiece' },
+      { icon: '🍥', name: 'Naruto', handle: '@XZ_Naruto' },
+      { icon: '👁️', name: 'Jujutsu Kaisen', handle: '@XZ_JujutsuKaisen' },
+      { icon: '🩸', name: 'Invincible', handle: '@XZ_Invincible' },
+      { icon: '🧙‍♂️', name: 'Lord of the Rings', handle: '@XZ_LordOfTheRings' },
+      { icon: '🌍', name: 'Universal Group Chat', handle: '@XZONE_Topic' }
+    ],
+    cta: '✨ Join XZONE — pick your favorite world.'
   }
 };
 
 /* ---------- data ---------- */
-let DATA = { characters: [] };
+let DATA = { characters: [], franchises: [] };
 const app = document.getElementById('app');
-
-/* Archive is intentionally schema-first: add more works here later without changing the UI. */
-const ARCHIVE = [
-  {
-    id: 'dragon-ball', kind: 'anime', icon: '🐉', colorClass: 'dragon', cover: 'goku-cover.jpg',
-    title: { fa: 'دراگون بال', en: 'Dragon Ball' },
-    subtitle: { fa: 'جهان سایان‌ها، اژدها و نبردهای کیهانی', en: 'Saiyans, Dragon Balls, and cosmic battles' },
-    tags: ['DragonBall','DragonBallZ','DragonBallSuper'],
-    characters: ['goku'],
-    tabs: ['info','episodes','characters','voiceActors','movies','timeline','gallery','related'],
-    info: {
-      fa: ['این کارت در حال حاضر بر پایه‌ی داده‌ی شخصیت‌های موجود در آرشیو ساخته شده است. بخش‌های اپیزودها، فیلم‌ها و صداپیشگان را می‌توان به همین ساختار اضافه کرد.','صفحه‌ی شخصیت‌ها اکنون برای سون گوکو دارای پرونده‌ی کامل و چندبخشی است.'],
-      en: ['This archive card currently uses the character data already present in the library. Episodes, movies, and voice-actor records can be added to the same structure.','The Characters section currently includes a detailed multi-section profile for Son Goku.']
-    }
-  },
-  {
-    id: 'lord-of-the-rings', kind: 'movie', icon: '🧙🏻‍♂️', colorClass: 'lotr', cover: 'gandalf-cover.jpeg',
-    title: { fa: 'ارباب حلقه‌ها', en: 'The Lord of the Rings' },
-    subtitle: { fa: 'سرزمین میانه و افسانه‌های آن', en: 'Middle-earth and its legends' },
-    tags: ['LOTR','MiddleEarth','LordOfTheRings'],
-    characters: ['gandalf'],
-    tabs: ['info','episodes','characters','voiceActors','movies','timeline','gallery','related'],
-    info: {
-      fa: ['این آرشیو از داده‌ی فعلی شخصیت گندالف استفاده می‌کند. اطلاعات گسترده‌تر درباره‌ی فیلم‌ها، شخصیت‌های دیگر و صداپیشگان را می‌توان بعداً به فایل آرشیو اضافه کرد.'],
-      en: ['This archive currently uses the existing Gandalf character profile. More movie, character, and voice-actor records can be added later to the archive data.']
-    }
-  }
-];
 
 fetch('characters.json')
   .then(r => r.json())
@@ -161,15 +207,21 @@ fetch('characters.json')
 
 window.addEventListener('hashchange', render);
 
+/* Merge a character/franchise with its localized translation (if any). */
 function loc(c) {
   if (LANG === 'en' && c.translations && c.translations.en) return Object.assign({}, c, c.translations.en);
   return c;
 }
 
+/* ---------- shared header controls ---------- */
 function controlsHTML() {
-  return `<div class="controls"><button class="ctrl-btn" id="theme-btn" aria-label="theme">${THEME === 'dark' ? '☀️' : '🌙'}</button><button class="ctrl-btn lang-btn" id="lang-btn" aria-label="language">${t('langBtn')}</button></div>`;
+  return `
+    <div class="controls">
+      <button class="ctrl-btn" id="theme-btn" aria-label="theme">${THEME === 'dark' ? '☀️' : '🌙'}</button>
+      <button class="ctrl-btn lang-btn" id="lang-btn" aria-label="language">${t('langBtn')}</button>
+    </div>
+  `;
 }
-
 function bindControls() {
   const themeBtn = document.getElementById('theme-btn');
   const langBtn = document.getElementById('lang-btn');
@@ -177,297 +229,409 @@ function bindControls() {
   if (langBtn) langBtn.addEventListener('click', () => setLang(LANG === 'fa' ? 'en' : 'fa'));
 }
 
-function getChar(id) { return DATA.characters.find(c => c.id === id); }
-function getArchive(id) { return ARCHIVE.find(a => a.id === id); }
+/* animate a card briefly before navigating, so "boxes" feel like they open */
+function goWithAnimation(el, hash) {
+  el.classList.add('is-opening');
+  setTimeout(() => { location.hash = hash; }, 150);
+}
 
 /* ---------- router ---------- */
 function render() {
   const hash = location.hash;
-  if (!hash || hash === '#') { renderArchiveList(); return; }
   if (hash === '#/network') { renderNetwork(); return; }
 
-  const parts = hash.slice(2).split('/').filter(Boolean).map(decodeURIComponent);
-  if (parts[0] === 'work') {
-    const archive = getArchive(parts[1]);
-    if (archive) { renderArchive(archive, parts[2] || 'info'); return; }
-  }
-  if (parts[0] === 'character') {
-    const char = getChar(parts[1]);
-    if (char) {
-      if (char.notice && !hasSpoilerConsent(parts[1])) {
-        renderSpoilerLocked(char, parts[1]);
-        setTimeout(() => openSpoilerGate(parts[1]), 0);
-      } else {
-        renderDetail(loc(char), parts[1]);
+  const m = hash.match(/^#\/f\/([^/]+)(?:\/([^/]+))?(?:\/([^/]+))?$/);
+  if (m) {
+    const fid = decodeURIComponent(m[1]);
+    const tabOrSection = m[2];
+    const sub = m[3];
+    const franchise = DATA.franchises.find(fr => fr.id === fid);
+    if (franchise) {
+      if (tabOrSection === 'characters' && sub) {
+        const cid = decodeURIComponent(sub);
+        const char = DATA.characters.find(c => c.id === cid);
+        if (char) {
+          renderFranchise(franchise, 'characters');
+          if (isSpoilerConfirmed(cid)) renderCharacterDetail(loc(char), franchise);
+          else showSpoilerModal(franchise, cid, () => renderCharacterDetail(loc(char), franchise));
+          return;
+        }
       }
+      renderFranchise(franchise, tabOrSection || 'info');
       return;
     }
   }
-  /* Backward compatibility with the original #/goku and #/gandalf routes. */
-  const legacy = getChar(parts[0]);
-  if (legacy) {
-    if (legacy.notice && !hasSpoilerConsent(parts[0])) {
-      renderSpoilerLocked(legacy, parts[0]);
-      setTimeout(() => openSpoilerGate(parts[0]), 0);
-    } else {
-      renderDetail(loc(legacy), parts[0]);
-    }
-    return;
-  }
-  renderArchiveList();
+  renderHome();
 }
 
-/* ---------- archive list ---------- */
-function normalizeSearch(value) {
-  return String(value || '')
-    .toLocaleLowerCase('fa')
-    .normalize('NFKC')
-    .replace(/[يى]/g, 'ی')
-    .replace(/[ك]/g, 'ک')
-    .replace(/[ۀة]/g, 'ه')
-    .replace(/[أإ]/g, 'ا')
-    .replace(/\s+/g, ' ')
-    .trim();
+/* ---------- home: franchise archive ---------- */
+function franchiseCardHTML(f) {
+  return `
+    <div class="poster-card" data-id="${f.id}" tabindex="0" role="button">
+      <div class="poster-img"><img src="${f.cover}" alt="${f.name}" loading="lazy"></div>
+      <div class="poster-scrim"></div>
+      <div class="poster-body">
+        <div class="poster-name">${f.name}</div>
+        <div class="poster-latin">${f.latin || ''}</div>
+        <div class="poster-tags">${(f.tags || []).slice(0, 3).join(' · ')}</div>
+      </div>
+    </div>
+  `;
 }
 
-function archiveSearchHaystack(archive) {
-  const characterData = archive.characters.map(getChar).filter(Boolean).flatMap(c => {
-    const localized = loc(c);
-    return [
-      c.id, c.name, c.latin, c.byline, c.caption, c.glyph,
-      ...(c.tags || []),
-      ...(c.trivia || []),
-      ...(c.abilities || []).flatMap(a => [a.title, a.text]),
-      ...(c.sections || []).flatMap(sec => [sec.heading, ...(sec.body || [])]),
-      localized.name, localized.latin, localized.byline, localized.caption
-    ];
-  });
-  return normalizeSearch([
-    archive.id, archive.kind, archive.icon,
-    archive.title.fa, archive.title.en,
-    archive.subtitle.fa, archive.subtitle.en,
-    ...(archive.tags || []), ...characterData
-  ].join(' '));
-}
-
-function matchesSearch(archive, query) {
-  const q = normalizeSearch(query);
-  if (!q) return true;
-  return archiveSearchHaystack(archive).includes(q);
-}
-
-function renderArchiveList(filterText = '') {
+function renderHome() {
   if (tg) tg.BackButton.hide();
-  const initial = String(filterText || '');
-  const items = ARCHIVE.filter(a => matchesSearch(a, initial));
 
-  const cards = items.map(a => {
-    const matchedCharacters = a.characters.map(getChar).filter(Boolean).filter(c => {
-      const q = normalizeSearch(initial);
-      if (!q) return false;
-      return archiveSearchHaystack({...a, characters:[c.id]}).includes(q);
-    });
-    return `
-      <div class="archive-card ${a.colorClass || ''}" data-id="${escapeAttr(a.id)}" tabindex="0" role="button" aria-label="${escapeAttr(a.title[LANG])}">
-        <div class="archive-cover">${a.cover ? `<img src="${escapeAttr(a.cover)}" alt="${escapeAttr(a.title[LANG])}" loading="lazy">` : `<div class="archive-icon">${a.icon || '◈'}</div>`}</div>
-        <div class="archive-card-body">
-          <div class="archive-kind">${a.icon || '◈'} ${t('archiveKind')} · ${escapeHtml(a.kind)}</div>
-          <div class="archive-title">${escapeHtml(a.title[LANG])}</div>
-          <div class="archive-subtitle">${escapeHtml(a.subtitle[LANG])}</div>
-          <div class="archive-tags">${(a.tags || []).map(x => '#' + escapeHtml(x)).join(' ')}</div>
-          ${matchedCharacters.length ? `<div class="search-match">${LANG === 'fa' ? 'شخصیت مرتبط:' : 'Matching character:'} ${matchedCharacters.map(c => escapeHtml(loc(c).name)).join(' · ')}</div>` : ''}
-        </div>
-        <div class="archive-chevron" aria-hidden="true">${LANG === 'fa' ? '‹' : '›'}</div>
-      </div>`;
-  }).join('');
+  const franchises = DATA.franchises.map(loc);
 
-  app.innerHTML = `<div class="page">
-    <div class="masthead">
-      ${controlsHTML()}
-      <div class="brand-mark">『𝖃』</div>
-      <h1>${t('title')}</h1>
-      <div class="sub">${t('subtitle')}</div>
-      <button class="network-pill" id="network-nav">🌐 ${t('networkNav')}</button>
+  app.innerHTML = `
+    <div class="page">
+      <div class="masthead">
+        ${controlsHTML()}
+        <h1>${t('title')}</h1>
+        <div class="sub">${t('subtitle')}</div>
+        <button class="network-pill" id="network-nav">🌐 ${t('networkNav')}</button>
+      </div>
+      <div class="search">
+        <input id="search-input" type="text" placeholder="${t('searchPlaceholder')}">
+      </div>
+      <div class="grid" id="franchise-grid"></div>
     </div>
-    <div class="search-shell">
-      <div class="search-icon" aria-hidden="true">⌕</div>
-      <input id="search-input" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search"
-        placeholder="${escapeAttr(t('searchPlaceholder'))}" value="${escapeAttr(initial)}" aria-label="${escapeAttr(t('searchPlaceholder'))}">
-      <button class="search-clear" id="search-clear" type="button" aria-label="${LANG === 'fa' ? 'پاک کردن جست‌وجو' : 'Clear search'}" ${initial ? '' : 'hidden'}>×</button>
-    </div>
-    <div class="search-meta" id="search-meta" aria-live="polite">
-      ${initial ? `${items.length} ${LANG === 'fa' ? 'نتیجه' : 'result'}${items.length === 1 ? '' : 's'}` : (LANG === 'fa' ? 'آرشیو کامل • انیمه، فیلم، سریال و دنیاها' : 'Complete archive • anime, movies, series & worlds')}
-    </div>
-    <div class="list archive-list" id="archive-results">${items.length ? cards : `<div class="empty search-empty"><div class="empty-icon">⌕</div><strong>${t('empty')}</strong><span>${LANG === 'fa' ? 'نام اثر، شخصیت، تگ یا عنوان انگلیسی را امتحان کنید.' : 'Try a title, character, tag, or English name.'}</span></div>`}</div>
-  </div>`;
+  `;
 
   bindControls();
   document.getElementById('network-nav').addEventListener('click', () => { location.hash = '#/network'; });
 
-  const input = document.getElementById('search-input');
-  const clear = document.getElementById('search-clear');
-  const results = document.getElementById('archive-results');
-  const meta = document.getElementById('search-meta');
-
-  const updateResults = () => {
-    const q = input.value;
-    const filtered = ARCHIVE.filter(a => matchesSearch(a, q));
-    results.innerHTML = filtered.length
-      ? filtered.map(a => {
-          const qn = normalizeSearch(q);
-          const matchedCharacters = qn ? a.characters.map(getChar).filter(Boolean).filter(c => archiveSearchHaystack({...a, characters:[c.id]}).includes(qn)) : [];
-          return `<div class="archive-card ${a.colorClass || ''}" data-id="${escapeAttr(a.id)}" tabindex="0" role="button" aria-label="${escapeAttr(a.title[LANG])}">
-            <div class="archive-cover">${a.cover ? `<img src="${escapeAttr(a.cover)}" alt="${escapeAttr(a.title[LANG])}" loading="lazy">` : `<div class="archive-icon">${a.icon || '◈'}</div>`}</div>
-            <div class="archive-card-body"><div class="archive-kind">${a.icon || '◈'} ${t('archiveKind')} · ${escapeHtml(a.kind)}</div><div class="archive-title">${escapeHtml(a.title[LANG])}</div><div class="archive-subtitle">${escapeHtml(a.subtitle[LANG])}</div><div class="archive-tags">${(a.tags || []).map(x => '#' + escapeHtml(x)).join(' ')}</div>${matchedCharacters.length ? `<div class="search-match">${LANG === 'fa' ? 'شخصیت مرتبط:' : 'Matching character:'} ${matchedCharacters.map(c => escapeHtml(loc(c).name)).join(' · ')}</div>` : ''}</div>
-            <div class="archive-chevron" aria-hidden="true">${LANG === 'fa' ? '‹' : '›'}</div></div>`;
-        }).join('')
-      : `<div class="empty search-empty"><div class="empty-icon">⌕</div><strong>${t('empty')}</strong><span>${LANG === 'fa' ? 'نام اثر، شخصیت، تگ یا عنوان انگلیسی را امتحان کنید.' : 'Try a title, character, tag, or English name.'}</span></div>`;
-    clear.hidden = !q;
-    meta.textContent = q ? `${filtered.length} ${LANG === 'fa' ? 'نتیجه' : (filtered.length === 1 ? 'result' : 'results')}` : (LANG === 'fa' ? 'آرشیو کامل • انیمه، فیلم، سریال و دنیاها' : 'Complete archive • anime, movies, series & worlds');
-    bindArchiveCards(results);
-  };
-
-  const bindArchiveCards = (root) => {
-    root.querySelectorAll('.archive-card').forEach(el => {
-      const go = () => { el.classList.add('is-opening'); setTimeout(() => { location.hash = '#/work/' + encodeURIComponent(el.dataset.id) + '/info'; }, 120); };
+  const grid = document.getElementById('franchise-grid');
+  function paint(list) {
+    grid.innerHTML = list.length ? list.map(franchiseCardHTML).join('') : `<div class="empty">${t('empty')}</div>`;
+    grid.querySelectorAll('.poster-card').forEach(el => {
+      const go = () => goWithAnimation(el, '#/f/' + el.dataset.id);
       el.addEventListener('click', go);
-      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+      el.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
     });
-  };
-  bindArchiveCards(results);
+  }
+  paint(franchises);
 
-  input.addEventListener('input', updateResults);
-  clear.addEventListener('click', () => { input.value = ''; updateResults(); input.focus(); });
+  const input = document.getElementById('search-input');
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    paint(franchises.filter(f => {
+      if (!q) return true;
+      const hay = (f.name + ' ' + (f.latin || '') + ' ' + (f.tags || []).join(' ')).toLowerCase();
+      return hay.includes(q);
+    }));
+  });
 }
 
-/* ---------- archive/work page ---------- */
-function renderArchive(archive, tab) {
-  if (tg) { tg.BackButton.show(); tg.BackButton.onClick(goBack); }
-  const validTab = archive.tabs.includes(tab) ? tab : 'info';
-  const tabs = archive.tabs.map(key => `<button class="archive-tab ${validTab === key ? 'active' : ''}" data-tab="${key}">${t(key)}</button>`).join('');
-  const chars = archive.characters.map(getChar).filter(Boolean).map(loc);
+/* ---------- franchise page: hero + tab bar ---------- */
+function infoTabHTML(f) {
+  const info = f.info || {};
+  const order = ['creator', 'director', 'basedOn', 'studio', 'origin', 'years', 'status'];
+  const rows = order.filter(k => info[k]).map(k => `<div class="row"><dt>${STRINGS[LANG].infoLabels[k] || k}</dt><dd>${info[k]}</dd></div>`).join('');
+  const genres = info.genres && info.genres.length ? `<div class="genre-chips">${info.genres.map(g => `<span class="chip">${g}</span>`).join('')}</div>` : '';
+  const synopsis = (info.synopsis || []).map(p => `<p>${p}</p>`).join('');
+  return `
+    <section class="block">${synopsis}</section>
+    <div class="rune-divider"><span>🜂</span></div>
+    <section class="block">
+      <h2>${t('details')}</h2>
+      <dl class="dossier">${rows}</dl>
+      ${genres}
+    </section>
+  `;
+}
 
-  let content = '';
-  if (validTab === 'characters') {
-    content = `
-      <section class="block archive-section"><div class="section-kicker">${archive.icon} ${t('characters')}</div><h2>${t('characterArchive')}</h2>
-      <div class="character-grid">${chars.map(c => `<div class="character-card" data-char-id="${c.id}" tabindex="0" role="button"><img src="${c.cover}" alt="${c.name}"><div><div class="character-name">${c.name}</div><div class="character-role">${c.byline || c.latin || ''}</div><div class="character-tags">${(c.tags || []).slice(0,4).map(x => '#' + x).join(' ')}</div></div><span class="character-arrow">${LANG === 'fa' ? '‹' : '›'}</span></div>`).join('') || `<div class="empty">${t('emptyCharacters')}</div>`}</div>
-      </section>`;
-  } else if (validTab === 'info') {
-    content = `<section class="block archive-section"><div class="section-kicker">${archive.icon} ${t('info')}</div><h2>${archive.title[LANG]}</h2>${archive.info[LANG].map(p => `<p>${p}</p>`).join('')}</section>`;
-  } else {
-    content = `<section class="block archive-section"><div class="section-kicker">${archive.icon} ${t(validTab)}</div><h2>${t(validTab)}</h2><div class="empty archive-empty">${t('unavailable')}</div></section>`;
+function episodesTabHTML(f) {
+  const items = (f.episodes || []).map(ep => `
+    <div class="ep-card">
+      <div class="ep-title">${ep.title}</div>
+      <div class="ep-meta">${ep.years || ''}${ep.count ? ' · ' + ep.count : ''}</div>
+      ${ep.desc ? `<p>${ep.desc}</p>` : ''}
+    </div>
+  `).join('');
+  return `<section class="block"><div class="ep-list">${items}</div></section>`;
+}
+
+function castTabHTML(f) {
+  const items = (f.cast || []).map(p => `
+    <div class="cast-row">
+      <div class="cast-name">${p.name}</div>
+      <div class="cast-meta">${p.role}${p.character ? ' · ' + p.character : ''}</div>
+    </div>
+  `).join('');
+  return `<section class="block"><div class="cast-list">${items}</div></section>`;
+}
+
+function characterCardHTML(c) {
+  return `
+    <div class="poster-card" data-id="${c.id}" tabindex="0" role="button">
+      <div class="poster-img"><img src="${c.cover}" alt="${c.name}" loading="lazy"></div>
+      <div class="poster-scrim"></div>
+      <div class="poster-body">
+        <div class="poster-name">${c.name}</div>
+        <div class="poster-latin">${c.byline || ''}</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderCharactersTab(f, container) {
+  const chars = (f.charactersRef || []).map(id => DATA.characters.find(c => c.id === id)).filter(Boolean).map(loc);
+  container.innerHTML = `
+    <div class="search inset"><input id="char-search" type="text" placeholder="${t('searchPlaceholder')}"></div>
+    <div class="grid" id="char-grid"></div>
+  `;
+  const grid = container.querySelector('#char-grid');
+  function paint(list) {
+    grid.innerHTML = list.length ? list.map(characterCardHTML).join('') : `<div class="empty">${t('empty')}</div>`;
+    grid.querySelectorAll('.poster-card').forEach(el => {
+      const go = () => goWithAnimation(el, `#/f/${f.id}/characters/${el.dataset.id}`);
+      el.addEventListener('click', go);
+      el.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+    });
   }
+  paint(chars);
+  const input = container.querySelector('#char-search');
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    paint(chars.filter(c => {
+      if (!q) return true;
+      const hay = (c.name + ' ' + (c.byline || '') + ' ' + (c.tags || []).join(' ')).toLowerCase();
+      return hay.includes(q);
+    }));
+  });
+}
 
-  app.innerHTML = `<div class="page detail archive-detail"><div class="detail-top"><button class="back" id="back-btn">${LANG === 'fa' ? '→' : '←'} ${t('back')}</button>${controlsHTML()}</div><div class="archive-hero"><div class="archive-hero-image">${archive.cover ? `<img src="${archive.cover}" alt="${archive.title[LANG]}">` : `<div class="archive-icon large">${archive.icon}</div>`}</div><div class="archive-hero-copy"><div class="eyebrow">${t('archiveKind')} · ${archive.kind}</div><h1>${archive.title[LANG]}</h1><p>${archive.subtitle[LANG]}</p><div class="hero-tags">${archive.tags.map(x => '#' + x).join(' ')}</div></div></div><nav class="archive-tabs" aria-label="${t('archiveKind')}">${tabs}</nav>${content}<footer class="site"><div class="sigil" id="footer-network">『𝚇𝚉𝙾𝙽𝙴◇𝙽𝙴𝚃𝚆𝙾𝚁𝙺』</div><div class="network">XZONE NETWORK</div><div class="tagline">${t('footerTagline')} — 🌐 @XZ_Network</div></footer></div>`;
+function renderFranchise(fRaw, tab) {
+  if (tg) { tg.BackButton.show(); tg.BackButton.onClick(goBack); }
+  const f = loc(fRaw);
+  const activeTab = tab || 'info';
+  const tabs = [
+    { id: 'info', label: t('tabInfo') },
+    { id: 'episodes', label: f.episodesLabel || t('tabInfo') },
+    { id: 'characters', label: t('tabCharacters') },
+    { id: 'cast', label: f.castLabel || t('tabCharacters') }
+  ];
+
+  app.innerHTML = `
+    <div class="page detail franchise-page">
+      <div class="detail-top">
+        <button class="back" id="back-btn">${LANG === 'fa' ? '→' : '←'} ${t('back')}</button>
+        ${controlsHTML()}
+      </div>
+
+      <div class="franchise-hero">
+        <img class="franchise-banner" src="${f.cover}" alt="${f.name}">
+        <div class="franchise-banner-scrim"></div>
+        <div class="franchise-hero-body">
+          <div class="glyph">${f.glyph || ''}</div>
+          <h1>${f.name}</h1>
+          <div class="latin">${f.latin || ''}</div>
+        </div>
+      </div>
+      ${f.tagline ? `<p class="franchise-tagline">${f.tagline}</p>` : ''}
+      ${f.tags && f.tags.length ? `<div class="franchise-tags">${f.tags.map(tag => '#' + tag).join(' ')}</div>` : ''}
+
+      <div class="tabbar">
+        ${tabs.map(tb => `<button class="tab-btn ${tb.id === activeTab ? 'active' : ''}" data-tab="${tb.id}">${tb.label}</button>`).join('')}
+      </div>
+
+      <div class="tab-content" id="tab-content"></div>
+    </div>
+  `;
 
   bindControls();
   document.getElementById('back-btn').addEventListener('click', goBack);
-  document.getElementById('footer-network').addEventListener('click', () => { location.hash = '#/network'; });
-  document.querySelectorAll('.archive-tab').forEach(btn => btn.addEventListener('click', () => { location.hash = `#/work/${archive.id}/${btn.dataset.tab}`; window.scrollTo(0,0); }));
-  document.querySelectorAll('.character-card').forEach(el => {
-    const open = () => { location.hash = `#/character/${encodeURIComponent(el.dataset.charId)}`; };
-    el.addEventListener('click', open); el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => { location.hash = `#/f/${f.id}/${btn.dataset.tab}`; });
   });
-  window.scrollTo(0,0);
+
+  const content = document.getElementById('tab-content');
+  if (activeTab === 'episodes') content.innerHTML = episodesTabHTML(f);
+  else if (activeTab === 'cast') content.innerHTML = castTabHTML(f);
+  else if (activeTab === 'characters') renderCharactersTab(f, content);
+  else content.innerHTML = infoTabHTML(f);
+
+  window.scrollTo(0, 0);
 }
 
-/* ---------- spoiler gate ---------- */
-function hasSpoilerConsent(charId) {
-  try { return sessionStorage.getItem(`xzone_spoiler_${charId}`) === '1'; } catch (e) { return false; }
-}
-
-function renderSpoilerLocked(rawChar, charId) {
-  const c = loc(rawChar);
-  if (tg) { tg.BackButton.show(); tg.BackButton.onClick(() => {
-    const archive = ARCHIVE.find(a => a.characters.includes(charId));
-    location.hash = archive ? `#/work/${archive.id}/characters` : '';
-  }); }
-  app.innerHTML = `<div class="page detail locked-page"><div class="detail-top"><button class="back" id="back-btn">${LANG === 'fa' ? '→' : '←'} ${t('back')}</button>${controlsHTML()}</div><div class="locked-content"><div class="locked-symbol">🔒</div><div class="eyebrow">XZONE ARCHIVE</div><h1>${escapeHtml(c.name)}</h1><p>${LANG === 'fa' ? 'پرونده‌ی این شخصیت شامل اطلاعات داستانی و اسپویلرهای مهم است.' : 'This character profile contains major story information and spoilers.'}</p><div class="locked-line">${LANG === 'fa' ? 'برای مشاهده‌ی پرونده، تأیید اسپویلر لازم است.' : 'Spoiler confirmation is required to view the profile.'}</div></div></div>`;
-  bindControls();
-  document.getElementById('back-btn').addEventListener('click', () => {
-    const archive = ARCHIVE.find(a => a.characters.includes(charId));
-    location.hash = archive ? `#/work/${archive.id}/characters` : '';
-  });
-}
-
-function openSpoilerGate(charId) {
-  const c = loc(getChar(charId));
-  if (!c) return;
-  if (!c.notice) { location.hash = `#/character/${charId}`; return; }
-  const existing = document.getElementById('spoiler-modal');
-  if (existing) existing.remove();
-  const title = LANG === 'fa' ? `ورود به پرونده‌ی ${c.name}` : `Open ${c.name}'s profile`;
-  const text = c.notice.text || (LANG === 'fa' ? 'این صفحه شامل اطلاعات داستانی مهم است.' : 'This profile contains major story information.');
-  document.body.insertAdjacentHTML('beforeend', `
-    <div class="spoiler-modal" id="spoiler-modal" role="dialog" aria-modal="true" aria-labelledby="spoiler-title">
-      <div class="spoiler-backdrop" data-close="1"></div>
-      <div class="spoiler-dialog">
-        <div class="spoiler-icon">⚠️</div><h2 id="spoiler-title">${t('spoilerTitle')}</h2>
-        <h3>${title}</h3><p>${text}</p>
-        <label class="spoiler-check"><input type="checkbox" id="spoiler-confirm"><span>${t('spoilerConfirm')}</span></label>
-        <div class="spoiler-actions"><button class="modal-cancel" id="spoiler-cancel">${t('cancel')}</button><button class="modal-continue" id="spoiler-continue" disabled>${t('continue')}</button></div>
-      </div>
-    </div>`);
-  const modal = document.getElementById('spoiler-modal');
-  const check = document.getElementById('spoiler-confirm');
-  const proceed = document.getElementById('spoiler-continue');
-  const close = () => modal.remove();
-  check.addEventListener('change', () => { proceed.disabled = !check.checked; });
-  proceed.addEventListener('click', () => {
-    try { sessionStorage.setItem(`xzone_spoiler_${charId}`, '1'); } catch (e) {}
-    close();
-    render();
-  });
-  document.getElementById('spoiler-cancel').addEventListener('click', () => { close(); const archive = ARCHIVE.find(a => a.characters.includes(charId)); location.hash = archive ? `#/work/${archive.id}/characters` : ''; });
-  modal.querySelector('.spoiler-backdrop').addEventListener('click', () => { close(); const archive = ARCHIVE.find(a => a.characters.includes(charId)); location.hash = archive ? `#/work/${archive.id}/characters` : ''; });
-  document.addEventListener('keydown', function onKey(e){ if (e.key === 'Escape') { close(); document.removeEventListener('keydown', onKey); } }, { once: true });
-  check.focus();
-}
-
-/* ---------- character detail ---------- */
+/* ---------- character detail (spoiler-gated) ---------- */
 function spoilerBox(spoiler) {
   if (!spoiler) return '';
   const cls = spoiler.level === 'final' ? 'spoiler final' : (spoiler.level === 'warn' ? 'notice' : 'spoiler');
   return `<div class="${cls}"><span class="label">${spoiler.label}</span><p>${spoiler.text}</p></div>`;
 }
 
-function renderDetail(c, originalId) {
-  if (tg) { tg.BackButton.show(); tg.BackButton.onClick(goBack); }
+function renderCharacterDetail(c, franchiseRaw) {
+  const franchise = loc(franchiseRaw);
+  if (tg) { tg.BackButton.show(); tg.BackButton.onClick(() => { location.hash = `#/f/${franchise.id}/characters`; }); }
+  const confirmed = isSpoilerConfirmed(c.id);
+
   const stats = (c.stats || []).map(s => `<div class="row"><dt>${s.label}</dt><dd>${s.value}</dd></div>`).join('');
-  const sections = (c.sections || []).map(s => `<section class="block"><h2>${s.icon ? s.icon + ' ' : ''}${s.heading}</h2>${spoilerBox(s.spoiler)}${(s.body || []).map(p => `<p>${p}</p>`).join('')}</section>`).join('');
+  const sections = (c.sections || []).map(s => `
+    <section class="block">
+      <h2>${s.icon ? s.icon + ' ' : ''}${s.heading}</h2>
+      ${confirmed ? '' : spoilerBox(s.spoiler)}
+      ${(s.body || []).map(p => `<p>${p}</p>`).join('')}
+    </section>
+  `).join('');
   const abilities = (c.abilities || []).map(a => `<li><strong>${a.title}</strong>${a.text}</li>`).join('');
-  const trivia = (c.trivia || []).map(item => `<li>${item}</li>`).join('');
-  app.innerHTML = `<div class="page detail"><div class="detail-top"><button class="back" id="back-btn">${LANG === 'fa' ? '→' : '←'} ${t('back')}</button>${controlsHTML()}</div><div class="hero"><div class="glyph">${c.glyph || '🎭'}</div><h1>${c.name}</h1><div class="latin">${c.latin || ''}</div><div class="byline">${c.byline || ''}</div>${c.quote ? `<div class="quote">${c.quote}</div>` : ''}</div>${c.cover ? `<figure class="cover"><img src="${c.cover}" alt="${c.caption || c.name}">${c.caption ? `<figcaption>${c.caption}</figcaption>` : ''}</figure>` : ''}${c.notice ? `<div class="notice"><span class="label">${c.notice.label}</span><p>${c.notice.text}</p></div>` : ''}${c.stats?.length ? `<div class="rune-divider"><span>🜂</span></div><section class="block"><h2>${t('dossier')}</h2><dl class="dossier">${stats}</dl></section>` : ''}${sections}${c.abilities?.length ? `<div class="rune-divider"><span>⚔️</span></div><section class="block"><h2>${t('abilities')}</h2><ul class="abilities">${abilities}</ul></section>` : ''}${c.trivia?.length ? `<div class="rune-divider"><span>🜏</span></div><section class="block"><h2>${t('trivia')}</h2><ul class="trivia">${trivia}</ul></section>` : ''}<footer class="site"><div class="sigil" id="footer-network">『𝚇𝚉𝙾𝙽𝙴◇𝙽𝙴𝚃𝚆𝙾𝚁𝙺』</div><div class="network">XZONE NETWORK</div><div class="tagline">${t('footerTagline')} — 🌐 @XZ_Network</div><div class="hashtags">${(c.tags || []).map(tag => '#' + tag).join(' ')}</div></footer></div>`;
+  const trivia = (c.trivia || []).map(x => `<li>${x}</li>`).join('');
+
+  app.innerHTML = `
+    <div class="page detail">
+      <div class="detail-top">
+        <button class="back" id="back-btn">${LANG === 'fa' ? '→' : '←'} ${t('back')}</button>
+        ${controlsHTML()}
+      </div>
+      <div class="crumb" id="crumb-link">${franchise.glyph || ''} ${franchise.name}</div>
+      <div class="hero">
+        <div class="glyph">${c.glyph || '🎭'}</div>
+        <h1>${c.name}</h1>
+        <div class="latin">${c.latin || ''}</div>
+        <div class="byline">${c.byline || ''}</div>
+        ${c.quote ? `<div class="quote">${c.quote}</div>` : ''}
+      </div>
+
+      ${c.cover ? `<figure class="cover"><img src="${c.cover}" alt="${c.caption || c.name}">${c.caption ? `<figcaption>${c.caption}</figcaption>` : ''}</figure>` : ''}
+
+      ${confirmed
+        ? `<div class="spoiler-ack">🔓 ${t('spoilersUnlocked')}</div>`
+        : (c.notice ? `<div class="notice"><span class="label">${c.notice.label}</span><p>${c.notice.text}</p></div>` : '')}
+
+      ${c.stats && c.stats.length ? `
+      <div class="rune-divider"><span>🜂</span></div>
+      <section class="block"><h2>${t('dossier')}</h2><dl class="dossier">${stats}</dl></section>` : ''}
+
+      ${sections}
+
+      ${c.abilities && c.abilities.length ? `<div class="rune-divider"><span>⚔️</span></div><section class="block"><h2>${t('abilities')}</h2><ul class="abilities">${abilities}</ul></section>` : ''}
+
+      ${c.trivia && c.trivia.length ? `<div class="rune-divider"><span>🜏</span></div><section class="block"><h2>${t('trivia')}</h2><ul class="trivia">${trivia}</ul></section>` : ''}
+
+      <footer class="site">
+        <div class="sigil" id="footer-network">『𝚇𝚉𝙾𝙽𝙴◇𝙽𝙴𝚃𝚆𝙾𝚁𝙺』</div>
+        <div class="network">XZONE NETWORK</div>
+        <div class="tagline">${t('footerTagline')} — 🌐 @XZ_Network</div>
+        <div class="hashtags">${(c.tags || []).map(tag => '#' + tag).join(' ')}</div>
+      </footer>
+    </div>
+  `;
+
   bindControls();
-  document.getElementById('back-btn').addEventListener('click', goBack);
+  document.getElementById('back-btn').addEventListener('click', () => { location.hash = `#/f/${franchise.id}/characters`; });
+  document.getElementById('crumb-link').addEventListener('click', () => { location.hash = `#/f/${franchise.id}`; });
   document.getElementById('footer-network').addEventListener('click', () => { location.hash = '#/network'; });
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
+}
+
+/* ---------- spoiler gate modal ---------- */
+function closeModal() {
+  const existing = document.getElementById('spoiler-modal');
+  if (existing) existing.remove();
+}
+
+function showSpoilerModal(franchise, cid, onConfirm) {
+  const char = loc(DATA.characters.find(c => c.id === cid));
+  if (!char) return;
+  closeModal();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'spoiler-modal';
+  overlay.innerHTML = `
+    <div class="modal-box">
+      <div class="modal-icon">⚠️</div>
+      <h3>${char.notice ? char.notice.label : t('spoilerTitle')}</h3>
+      <p>${char.notice ? char.notice.text : t('spoilerGeneric')}</p>
+      <label class="modal-check">
+        <input type="checkbox" id="spoiler-check">
+        <span>${t('spoilerCheckboxLabel')}</span>
+      </label>
+      <div class="modal-actions">
+        <button class="modal-btn ghost" id="spoiler-cancel">${t('cancel')}</button>
+        <button class="modal-btn primary" id="spoiler-confirm" disabled>${t('continueReading')}</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  const checkbox = overlay.querySelector('#spoiler-check');
+  const confirmBtn = overlay.querySelector('#spoiler-confirm');
+  checkbox.addEventListener('change', () => { confirmBtn.disabled = !checkbox.checked; });
+  confirmBtn.addEventListener('click', () => {
+    confirmSpoiler(cid);
+    closeModal();
+    if (onConfirm) onConfirm();
+  });
+  overlay.querySelector('#spoiler-cancel').addEventListener('click', () => {
+    closeModal();
+    location.hash = `#/f/${franchise.id}/characters`;
+  });
+  overlay.addEventListener('click', e => { if (e.target === overlay) { closeModal(); location.hash = `#/f/${franchise.id}/characters`; } });
 }
 
 /* ---------- network article view ---------- */
 function renderNetwork() {
   if (tg) { tg.BackButton.show(); tg.BackButton.onClick(goBack); }
   const n = NETWORK[LANG];
+
   const pillars = n.pillars.map(p => `<div class="pillar"><span>${p.icon}</span>${p.label}</div>`).join('');
-  const channels = n.channels.map(ch => `<a class="channel" href="https://t.me/${ch.handle.replace('@','')}" target="_blank" rel="noopener"><span class="ch-icon">${ch.icon}</span><span class="ch-name">${ch.name}</span><span class="ch-handle">${ch.handle}</span></a>`).join('');
-  app.innerHTML = `<div class="page detail network-page"><div class="detail-top"><button class="back" id="back-btn">${LANG === 'fa' ? '→' : '←'} ${t('back')}</button>${controlsHTML()}</div><div class="hero network-hero"><div class="glyph">🌐</div><div class="eyebrow">${n.eyebrow}</div><h1>${n.title}</h1><div class="latin">${n.subtitle}</div></div><section class="block">${n.intro.map(p => `<p>${p}</p>`).join('')}</section><div class="pillars">${pillars}</div><div class="rune-divider"><span>✦</span></div><section class="block"><h2>${n.missionTitle}</h2>${n.missionBody.map(p => `<p>${p}</p>`).join('')}</section><div class="rune-divider"><span>🜂</span></div><section class="block"><h2>${n.visionTitle}</h2>${n.visionBody.map(p => `<p>${p}</p>`).join('')}</section><div class="quote-block">${n.quote}</div><div class="closing-line">${n.closing}</div><div class="rune-divider"><span>🌐</span></div><section class="block"><h2>${n.channelsTitle}</h2><p class="channels-intro">${n.channelsIntro}</p><div class="channels">${channels}</div></section><div class="cta-line">${n.cta}</div><footer class="site"><div class="sigil">『𝚇𝚉𝙾𝙽𝙴◇𝙽𝙴𝚃𝚆𝙾𝚁𝙺』</div><div class="network">XZONE NETWORK</div><div class="tagline">${n.subtitle}</div></footer></div>`;
+  const channels = n.channels.map(ch => `
+    <a class="channel" href="https://t.me/${ch.handle.replace('@', '')}" target="_blank" rel="noopener">
+      <span class="ch-icon">${ch.icon}</span>
+      <span class="ch-name">${ch.name}</span>
+      <span class="ch-handle">${ch.handle}</span>
+    </a>
+  `).join('');
+
+  app.innerHTML = `
+    <div class="page detail network-page">
+      <div class="detail-top">
+        <button class="back" id="back-btn">${LANG === 'fa' ? '→' : '←'} ${t('back')}</button>
+        ${controlsHTML()}
+      </div>
+
+      <div class="hero network-hero">
+        <div class="glyph">🌐</div>
+        <div class="eyebrow">${n.eyebrow}</div>
+        <h1>${n.title}</h1>
+        <div class="latin">${n.subtitle}</div>
+      </div>
+
+      <section class="block">${n.intro.map(p => `<p>${p}</p>`).join('')}</section>
+      <div class="pillars">${pillars}</div>
+
+      <div class="rune-divider"><span>✦</span></div>
+      <section class="block"><h2>${n.missionTitle}</h2>${n.missionBody.map(p => `<p>${p}</p>`).join('')}</section>
+
+      <div class="rune-divider"><span>🜂</span></div>
+      <section class="block"><h2>${n.visionTitle}</h2>${n.visionBody.map(p => `<p>${p}</p>`).join('')}</section>
+
+      <div class="quote-block">${n.quote}</div>
+      <div class="closing-line">${n.closing}</div>
+
+      <div class="rune-divider"><span>🌐</span></div>
+      <section class="block">
+        <h2>${n.channelsTitle}</h2>
+        <p class="channels-intro">${n.channelsIntro}</p>
+        <div class="channels">${channels}</div>
+      </section>
+
+      <div class="cta-line">${n.cta}</div>
+
+      <footer class="site">
+        <div class="sigil">『𝚇𝚉𝙾𝙽𝙴◇𝙽𝙴𝚃𝚆𝙾𝚁𝙺』</div>
+        <div class="network">XZONE NETWORK</div>
+        <div class="tagline">${n.subtitle}</div>
+      </footer>
+    </div>
+  `;
+
   bindControls();
   document.getElementById('back-btn').addEventListener('click', goBack);
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
 
-function escapeHtml(v) { return String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;').replace(/'/g,'&#39;'); }
-function escapeAttr(v) { return escapeHtml(v).replace(/\"/g,'&quot;'); }
-function goBack() {
-  const hash = location.hash;
-  if (hash.startsWith('#/character/')) {
-    const parts = hash.slice(2).split('/').filter(Boolean);
-    const archive = ARCHIVE.find(a => a.characters.includes(parts[1]));
-    location.hash = archive ? `#/work/${archive.id}/characters` : '';
-    return;
-  }
-  if (hash.startsWith('#/work/')) { location.hash = ''; return; }
-  if (hash === '#/network') { location.hash = ''; return; }
-  location.hash = '';
-}
+function goBack() { location.hash = ''; }
