@@ -193,39 +193,151 @@ function render() {
   }
   if (parts[0] === 'character') {
     const char = getChar(parts[1]);
-    if (char) { renderDetail(loc(char), parts[1]); return; }
+    if (char) {
+      if (char.notice && !hasSpoilerConsent(parts[1])) {
+        renderSpoilerLocked(char, parts[1]);
+        setTimeout(() => openSpoilerGate(parts[1]), 0);
+      } else {
+        renderDetail(loc(char), parts[1]);
+      }
+      return;
+    }
   }
   /* Backward compatibility with the original #/goku and #/gandalf routes. */
   const legacy = getChar(parts[0]);
-  if (legacy) { renderDetail(loc(legacy), parts[0]); return; }
+  if (legacy) {
+    if (legacy.notice && !hasSpoilerConsent(parts[0])) {
+      renderSpoilerLocked(legacy, parts[0]);
+      setTimeout(() => openSpoilerGate(parts[0]), 0);
+    } else {
+      renderDetail(loc(legacy), parts[0]);
+    }
+    return;
+  }
   renderArchiveList();
 }
 
 /* ---------- archive list ---------- */
+function normalizeSearch(value) {
+  return String(value || '')
+    .toLocaleLowerCase('fa')
+    .normalize('NFKC')
+    .replace(/[يى]/g, 'ی')
+    .replace(/[ك]/g, 'ک')
+    .replace(/[ۀة]/g, 'ه')
+    .replace(/[أإ]/g, 'ا')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function archiveSearchHaystack(archive) {
+  const characterData = archive.characters.map(getChar).filter(Boolean).flatMap(c => {
+    const localized = loc(c);
+    return [
+      c.id, c.name, c.latin, c.byline, c.caption, c.glyph,
+      ...(c.tags || []),
+      ...(c.trivia || []),
+      ...(c.abilities || []).flatMap(a => [a.title, a.text]),
+      ...(c.sections || []).flatMap(sec => [sec.heading, ...(sec.body || [])]),
+      localized.name, localized.latin, localized.byline, localized.caption
+    ];
+  });
+  return normalizeSearch([
+    archive.id, archive.kind, archive.icon,
+    archive.title.fa, archive.title.en,
+    archive.subtitle.fa, archive.subtitle.en,
+    ...(archive.tags || []), ...characterData
+  ].join(' '));
+}
+
+function matchesSearch(archive, query) {
+  const q = normalizeSearch(query);
+  if (!q) return true;
+  return archiveSearchHaystack(archive).includes(q);
+}
+
 function renderArchiveList(filterText = '') {
   if (tg) tg.BackButton.hide();
-  const q = filterText.trim().toLowerCase();
-  const items = ARCHIVE.filter(a => {
-    if (!q) return true;
-    const hay = [a.title.fa, a.title.en, a.subtitle.fa, a.subtitle.en, a.kind, ...a.tags].join(' ').toLowerCase();
-    return hay.includes(q);
-  });
-  const cards = items.map(a => `
-    <div class="archive-card ${a.colorClass}" data-id="${a.id}" tabindex="0" role="button">
-      <div class="archive-cover">${a.cover ? `<img src="${a.cover}" alt="${a.title[LANG]}">` : `<div class="archive-icon">${a.icon}</div>`}</div>
-      <div class="archive-card-body"><div class="archive-kind">${a.icon} ${t('archiveKind')}</div><div class="archive-title">${a.title[LANG]}</div><div class="archive-subtitle">${a.subtitle[LANG]}</div><div class="archive-tags">${a.tags.map(x => '#' + x).join(' ')}</div></div>
-      <div class="archive-chevron">${LANG === 'fa' ? '‹' : '›'}</div>
-    </div>`).join('');
-  app.innerHTML = `<div class="page"><div class="masthead">${controlsHTML()}<h1>${t('title')}</h1><div class="sub">${t('subtitle')}</div><button class="network-pill" id="network-nav">🌐 ${t('networkNav')}</button></div><div class="search"><input id="search-input" type="text" placeholder="${t('searchPlaceholder')}" value="${escapeAttr(filterText)}"></div><div class="list archive-list">${items.length ? cards : `<div class="empty">${t('empty')}</div>`}</div></div>`;
+  const initial = String(filterText || '');
+  const items = ARCHIVE.filter(a => matchesSearch(a, initial));
+
+  const cards = items.map(a => {
+    const matchedCharacters = a.characters.map(getChar).filter(Boolean).filter(c => {
+      const q = normalizeSearch(initial);
+      if (!q) return false;
+      return archiveSearchHaystack({...a, characters:[c.id]}).includes(q);
+    });
+    return `
+      <div class="archive-card ${a.colorClass || ''}" data-id="${escapeAttr(a.id)}" tabindex="0" role="button" aria-label="${escapeAttr(a.title[LANG])}">
+        <div class="archive-cover">${a.cover ? `<img src="${escapeAttr(a.cover)}" alt="${escapeAttr(a.title[LANG])}" loading="lazy">` : `<div class="archive-icon">${a.icon || '◈'}</div>`}</div>
+        <div class="archive-card-body">
+          <div class="archive-kind">${a.icon || '◈'} ${t('archiveKind')} · ${escapeHtml(a.kind)}</div>
+          <div class="archive-title">${escapeHtml(a.title[LANG])}</div>
+          <div class="archive-subtitle">${escapeHtml(a.subtitle[LANG])}</div>
+          <div class="archive-tags">${(a.tags || []).map(x => '#' + escapeHtml(x)).join(' ')}</div>
+          ${matchedCharacters.length ? `<div class="search-match">${LANG === 'fa' ? 'شخصیت مرتبط:' : 'Matching character:'} ${matchedCharacters.map(c => escapeHtml(loc(c).name)).join(' · ')}</div>` : ''}
+        </div>
+        <div class="archive-chevron" aria-hidden="true">${LANG === 'fa' ? '‹' : '›'}</div>
+      </div>`;
+  }).join('');
+
+  app.innerHTML = `<div class="page">
+    <div class="masthead">
+      ${controlsHTML()}
+      <div class="brand-mark">『𝖃』</div>
+      <h1>${t('title')}</h1>
+      <div class="sub">${t('subtitle')}</div>
+      <button class="network-pill" id="network-nav">🌐 ${t('networkNav')}</button>
+    </div>
+    <div class="search-shell">
+      <div class="search-icon" aria-hidden="true">⌕</div>
+      <input id="search-input" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search"
+        placeholder="${escapeAttr(t('searchPlaceholder'))}" value="${escapeAttr(initial)}" aria-label="${escapeAttr(t('searchPlaceholder'))}">
+      <button class="search-clear" id="search-clear" type="button" aria-label="${LANG === 'fa' ? 'پاک کردن جست‌وجو' : 'Clear search'}" ${initial ? '' : 'hidden'}>×</button>
+    </div>
+    <div class="search-meta" id="search-meta" aria-live="polite">
+      ${initial ? `${items.length} ${LANG === 'fa' ? 'نتیجه' : 'result'}${items.length === 1 ? '' : 's'}` : (LANG === 'fa' ? 'آرشیو کامل • انیمه، فیلم، سریال و دنیاها' : 'Complete archive • anime, movies, series & worlds')}
+    </div>
+    <div class="list archive-list" id="archive-results">${items.length ? cards : `<div class="empty search-empty"><div class="empty-icon">⌕</div><strong>${t('empty')}</strong><span>${LANG === 'fa' ? 'نام اثر، شخصیت، تگ یا عنوان انگلیسی را امتحان کنید.' : 'Try a title, character, tag, or English name.'}</span></div>`}</div>
+  </div>`;
+
   bindControls();
   document.getElementById('network-nav').addEventListener('click', () => { location.hash = '#/network'; });
-  document.querySelectorAll('.archive-card').forEach(el => {
-    const go = () => { el.classList.add('is-opening'); setTimeout(() => { location.hash = '#/work/' + el.dataset.id + '/info'; }, 120); };
-    el.addEventListener('click', go); el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
-  });
+
   const input = document.getElementById('search-input');
-  input.addEventListener('input', () => renderArchiveList(input.value));
-  input.focus({ preventScroll: true });
+  const clear = document.getElementById('search-clear');
+  const results = document.getElementById('archive-results');
+  const meta = document.getElementById('search-meta');
+
+  const updateResults = () => {
+    const q = input.value;
+    const filtered = ARCHIVE.filter(a => matchesSearch(a, q));
+    results.innerHTML = filtered.length
+      ? filtered.map(a => {
+          const qn = normalizeSearch(q);
+          const matchedCharacters = qn ? a.characters.map(getChar).filter(Boolean).filter(c => archiveSearchHaystack({...a, characters:[c.id]}).includes(qn)) : [];
+          return `<div class="archive-card ${a.colorClass || ''}" data-id="${escapeAttr(a.id)}" tabindex="0" role="button" aria-label="${escapeAttr(a.title[LANG])}">
+            <div class="archive-cover">${a.cover ? `<img src="${escapeAttr(a.cover)}" alt="${escapeAttr(a.title[LANG])}" loading="lazy">` : `<div class="archive-icon">${a.icon || '◈'}</div>`}</div>
+            <div class="archive-card-body"><div class="archive-kind">${a.icon || '◈'} ${t('archiveKind')} · ${escapeHtml(a.kind)}</div><div class="archive-title">${escapeHtml(a.title[LANG])}</div><div class="archive-subtitle">${escapeHtml(a.subtitle[LANG])}</div><div class="archive-tags">${(a.tags || []).map(x => '#' + escapeHtml(x)).join(' ')}</div>${matchedCharacters.length ? `<div class="search-match">${LANG === 'fa' ? 'شخصیت مرتبط:' : 'Matching character:'} ${matchedCharacters.map(c => escapeHtml(loc(c).name)).join(' · ')}</div>` : ''}</div>
+            <div class="archive-chevron" aria-hidden="true">${LANG === 'fa' ? '‹' : '›'}</div></div>`;
+        }).join('')
+      : `<div class="empty search-empty"><div class="empty-icon">⌕</div><strong>${t('empty')}</strong><span>${LANG === 'fa' ? 'نام اثر، شخصیت، تگ یا عنوان انگلیسی را امتحان کنید.' : 'Try a title, character, tag, or English name.'}</span></div>`;
+    clear.hidden = !q;
+    meta.textContent = q ? `${filtered.length} ${LANG === 'fa' ? 'نتیجه' : (filtered.length === 1 ? 'result' : 'results')}` : (LANG === 'fa' ? 'آرشیو کامل • انیمه، فیلم، سریال و دنیاها' : 'Complete archive • anime, movies, series & worlds');
+    bindArchiveCards(results);
+  };
+
+  const bindArchiveCards = (root) => {
+    root.querySelectorAll('.archive-card').forEach(el => {
+      const go = () => { el.classList.add('is-opening'); setTimeout(() => { location.hash = '#/work/' + encodeURIComponent(el.dataset.id) + '/info'; }, 120); };
+      el.addEventListener('click', go);
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
+  };
+  bindArchiveCards(results);
+
+  input.addEventListener('input', updateResults);
+  clear.addEventListener('click', () => { input.value = ''; updateResults(); input.focus(); });
 }
 
 /* ---------- archive/work page ---------- */
@@ -254,14 +366,32 @@ function renderArchive(archive, tab) {
   document.getElementById('footer-network').addEventListener('click', () => { location.hash = '#/network'; });
   document.querySelectorAll('.archive-tab').forEach(btn => btn.addEventListener('click', () => { location.hash = `#/work/${archive.id}/${btn.dataset.tab}`; window.scrollTo(0,0); }));
   document.querySelectorAll('.character-card').forEach(el => {
-    const open = () => openSpoilerGate(el.dataset.charId, archive.id);
+    const open = () => { location.hash = `#/character/${encodeURIComponent(el.dataset.charId)}`; };
     el.addEventListener('click', open); el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
   });
   window.scrollTo(0,0);
 }
 
 /* ---------- spoiler gate ---------- */
-function openSpoilerGate(charId, archiveId) {
+function hasSpoilerConsent(charId) {
+  try { return sessionStorage.getItem(`xzone_spoiler_${charId}`) === '1'; } catch (e) { return false; }
+}
+
+function renderSpoilerLocked(rawChar, charId) {
+  const c = loc(rawChar);
+  if (tg) { tg.BackButton.show(); tg.BackButton.onClick(() => {
+    const archive = ARCHIVE.find(a => a.characters.includes(charId));
+    location.hash = archive ? `#/work/${archive.id}/characters` : '';
+  }); }
+  app.innerHTML = `<div class="page detail locked-page"><div class="detail-top"><button class="back" id="back-btn">${LANG === 'fa' ? '→' : '←'} ${t('back')}</button>${controlsHTML()}</div><div class="locked-content"><div class="locked-symbol">🔒</div><div class="eyebrow">XZONE ARCHIVE</div><h1>${escapeHtml(c.name)}</h1><p>${LANG === 'fa' ? 'پرونده‌ی این شخصیت شامل اطلاعات داستانی و اسپویلرهای مهم است.' : 'This character profile contains major story information and spoilers.'}</p><div class="locked-line">${LANG === 'fa' ? 'برای مشاهده‌ی پرونده، تأیید اسپویلر لازم است.' : 'Spoiler confirmation is required to view the profile.'}</div></div></div>`;
+  bindControls();
+  document.getElementById('back-btn').addEventListener('click', () => {
+    const archive = ARCHIVE.find(a => a.characters.includes(charId));
+    location.hash = archive ? `#/work/${archive.id}/characters` : '';
+  });
+}
+
+function openSpoilerGate(charId) {
   const c = loc(getChar(charId));
   if (!c) return;
   if (!c.notice) { location.hash = `#/character/${charId}`; return; }
@@ -284,9 +414,13 @@ function openSpoilerGate(charId, archiveId) {
   const proceed = document.getElementById('spoiler-continue');
   const close = () => modal.remove();
   check.addEventListener('change', () => { proceed.disabled = !check.checked; });
-  proceed.addEventListener('click', () => { location.hash = `#/character/${charId}`; close(); });
-  document.getElementById('spoiler-cancel').addEventListener('click', close);
-  modal.querySelector('.spoiler-backdrop').addEventListener('click', close);
+  proceed.addEventListener('click', () => {
+    try { sessionStorage.setItem(`xzone_spoiler_${charId}`, '1'); } catch (e) {}
+    close();
+    render();
+  });
+  document.getElementById('spoiler-cancel').addEventListener('click', () => { close(); const archive = ARCHIVE.find(a => a.characters.includes(charId)); location.hash = archive ? `#/work/${archive.id}/characters` : ''; });
+  modal.querySelector('.spoiler-backdrop').addEventListener('click', () => { close(); const archive = ARCHIVE.find(a => a.characters.includes(charId)); location.hash = archive ? `#/work/${archive.id}/characters` : ''; });
   document.addEventListener('keydown', function onKey(e){ if (e.key === 'Escape') { close(); document.removeEventListener('keydown', onKey); } }, { once: true });
   check.focus();
 }
@@ -323,5 +457,17 @@ function renderNetwork() {
   window.scrollTo(0,0);
 }
 
-function escapeAttr(v) { return String(v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function goBack() { location.hash = ''; }
+function escapeHtml(v) { return String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;').replace(/'/g,'&#39;'); }
+function escapeAttr(v) { return escapeHtml(v).replace(/\"/g,'&quot;'); }
+function goBack() {
+  const hash = location.hash;
+  if (hash.startsWith('#/character/')) {
+    const parts = hash.slice(2).split('/').filter(Boolean);
+    const archive = ARCHIVE.find(a => a.characters.includes(parts[1]));
+    location.hash = archive ? `#/work/${archive.id}/characters` : '';
+    return;
+  }
+  if (hash.startsWith('#/work/')) { location.hash = ''; return; }
+  if (hash === '#/network') { location.hash = ''; return; }
+  location.hash = '';
+}
